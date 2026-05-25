@@ -49,6 +49,18 @@
     return `${item.mealLabel} · ${item.siteLabel} · ${diets} · ${item.calories} kcal`;
   }
 
+  function trashIcon() {
+    return [
+      '<svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">',
+      '<path d="M3 6h18"></path>',
+      '<path d="M8 6V4h8v2"></path>',
+      '<path d="M19 6l-1 14H6L5 6"></path>',
+      '<path d="M10 11v5"></path>',
+      '<path d="M14 11v5"></path>',
+      "</svg>"
+    ].join("");
+  }
+
   function renderCart() {
     const items = getCart();
     const itemList = document.getElementById("cart-items");
@@ -77,33 +89,33 @@
       const name = document.createElement("strong");
       const meta = document.createElement("p");
       const price = document.createElement("span");
-      const removeButton = document.createElement("button");
 
       row.className = "cart-item";
       quantityControls.className = "quantity-control";
       decreaseButton.type = "button";
-      decreaseButton.dataset.action = "decrease";
+      decreaseButton.dataset.action = item.quantity <= 1 ? "remove" : "decrease";
       decreaseButton.dataset.id = item.id;
-      decreaseButton.textContent = "-";
-      decreaseButton.disabled = item.quantity <= 1;
+      decreaseButton.setAttribute("aria-label", item.quantity <= 1 ? "刪除商品" : "減少數量");
+      if (item.quantity <= 1) {
+        decreaseButton.className = "trash-quantity";
+        decreaseButton.innerHTML = trashIcon();
+      } else {
+        decreaseButton.textContent = "-";
+      }
       quantity.className = "qty";
       quantity.textContent = item.quantity;
       increaseButton.type = "button";
       increaseButton.dataset.action = "increase";
       increaseButton.dataset.id = item.id;
+      increaseButton.setAttribute("aria-label", "增加數量");
       increaseButton.textContent = "+";
       name.textContent = item.name;
       meta.textContent = itemMeta(item);
       price.textContent = money(item.price * item.quantity);
-      removeButton.type = "button";
-      removeButton.className = "remove-cart-item";
-      removeButton.dataset.action = "remove";
-      removeButton.dataset.id = item.id;
-      removeButton.textContent = "刪除";
 
       quantityControls.append(decreaseButton, quantity, increaseButton);
       content.append(name, meta);
-      row.append(quantityControls, content, price, removeButton);
+      row.append(quantityControls, content, price);
       itemList.appendChild(row);
     });
 
@@ -125,7 +137,11 @@
     }
 
     if (action === "decrease") {
-      items[index].quantity = Math.max(1, items[index].quantity - 1);
+      if (items[index].quantity <= 1) {
+        items.splice(index, 1);
+      } else {
+        items[index].quantity -= 1;
+      }
     }
 
     if (action === "remove") {
