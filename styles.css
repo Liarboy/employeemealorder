@@ -1273,17 +1273,64 @@ body:has(#site-taichung:checked):has(#lunch:checked):has(#low-cal:checked) .empt
   border-color: #d4d4d8;
 }
 
-.cart-item div:nth-child(2) {
+.quantity-control button:disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.quantity-control button:disabled:hover {
+  background: var(--card);
+  border-color: transparent;
+}
+
+.cart-item-info {
   flex: 1;
+  min-width: 0;
+}
+
+.cart-item-actions {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+}
+
+.cart-line-price {
+  display: block;
+  font-weight: 900;
+  min-width: max-content;
 }
 
 .cart-item strong {
   display: block;
 }
 
-.cart-item span {
-  font-weight: 900;
-  min-width: max-content;
+.remove-cart-item {
+  display: grid;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  color: var(--destructive);
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.remove-cart-item svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.remove-cart-item:hover {
+  background: #e4e4e7;
+  border-color: #d4d4d8;
 }
 
 .note-field {
@@ -1698,7 +1745,6 @@ body:has(#site-taichung:checked):has(#lunch:checked):has(#low-cal:checked) .empt
 
   .section-heading,
   .panel-header,
-  .cart-item,
   .order-record,
   .pickup-summary div {
     align-items: flex-start;

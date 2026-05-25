@@ -86,22 +86,22 @@
       const quantity = document.createElement("span");
       const increaseButton = document.createElement("button");
       const content = document.createElement("div");
+      const itemActions = document.createElement("div");
       const name = document.createElement("strong");
       const meta = document.createElement("p");
       const price = document.createElement("span");
+      const removeButton = document.createElement("button");
 
       row.className = "cart-item";
+      content.className = "cart-item-info";
+      itemActions.className = "cart-item-actions";
       quantityControls.className = "quantity-control";
       decreaseButton.type = "button";
-      decreaseButton.dataset.action = item.quantity <= 1 ? "remove" : "decrease";
+      decreaseButton.dataset.action = "decrease";
       decreaseButton.dataset.id = item.id;
-      decreaseButton.setAttribute("aria-label", item.quantity <= 1 ? "刪除商品" : "減少數量");
-      if (item.quantity <= 1) {
-        decreaseButton.className = "trash-quantity";
-        decreaseButton.innerHTML = trashIcon();
-      } else {
-        decreaseButton.textContent = "-";
-      }
+      decreaseButton.setAttribute("aria-label", "減少數量");
+      decreaseButton.disabled = item.quantity <= 1;
+      decreaseButton.textContent = "-";
       quantity.className = "qty";
       quantity.textContent = item.quantity;
       increaseButton.type = "button";
@@ -111,11 +111,19 @@
       increaseButton.textContent = "+";
       name.textContent = item.name;
       meta.textContent = itemMeta(item);
+      price.className = "cart-line-price";
       price.textContent = money(item.price * item.quantity);
+      removeButton.type = "button";
+      removeButton.className = "remove-cart-item";
+      removeButton.dataset.action = "remove";
+      removeButton.dataset.id = item.id;
+      removeButton.setAttribute("aria-label", "刪除商品");
+      removeButton.innerHTML = trashIcon();
 
       quantityControls.append(decreaseButton, quantity, increaseButton);
       content.append(name, meta);
-      row.append(quantityControls, content, price);
+      itemActions.append(quantityControls, price);
+      row.append(content, itemActions, removeButton);
       itemList.appendChild(row);
     });
 
@@ -137,11 +145,7 @@
     }
 
     if (action === "decrease") {
-      if (items[index].quantity <= 1) {
-        items.splice(index, 1);
-      } else {
-        items[index].quantity -= 1;
-      }
+      items[index].quantity = Math.max(1, items[index].quantity - 1);
     }
 
     if (action === "remove") {
