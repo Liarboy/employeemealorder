@@ -59,6 +59,44 @@
     localStorage.setItem(cartKey, JSON.stringify(items));
   }
 
+  function classValue(card, prefix) {
+    return Array.from(card.classList).find((className) => className.startsWith(prefix));
+  }
+
+  function productFromStaticCard(card) {
+    const name = card.querySelector("h3")?.textContent.trim() || "未命名餐點";
+    const priceText = card.querySelector(".meal-footer strong")?.textContent || "0";
+    const caloriesText = card.querySelector(".meal-meta small")?.textContent || "0";
+    const site = classValue(card, "site-") || "site-a";
+    const meal = classValue(card, "meal-") || "meal-lunch";
+    const diets = Array.from(card.classList).filter((className) => className.startsWith("diet-"));
+
+    return {
+      id: `static-${name}`,
+      name,
+      price: Number(priceText.replace(/[^\d]/g, "")) || 0,
+      calories: Number(caloriesText.replace(/[^\d]/g, "")) || 0,
+      site,
+      meal,
+      diets: diets.length ? diets : ["diet-normal"]
+    };
+  }
+
+  function attachStaticCartButtons() {
+    document.querySelectorAll('.meal-card .meal-footer a.button[href="cart.html"]').forEach((button) => {
+      button.addEventListener("click", (event) => {
+        const card = button.closest(".meal-card");
+        if (!card) {
+          return;
+        }
+
+        event.preventDefault();
+        addToCart(productFromStaticCard(card));
+        window.location.href = "cart.html";
+      });
+    });
+  }
+
   function createCard(product) {
     const card = document.createElement("article");
     card.className = [
@@ -118,6 +156,8 @@
       .forEach((product) => {
         grid.insertBefore(createCard(product), emptyState);
       });
+
+    attachStaticCartButtons();
 
     const topbar = document.querySelector(".topbar");
     const hero = document.querySelector(".hero");
