@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="i18n.js" defer></script>
+  <script src="cart.js" defer></script>
 </head>
 <body>
   <header class="topbar">
@@ -54,24 +55,13 @@
             <p class="eyebrow">Cart</p>
             <h2>已選餐點</h2>
           </div>
-          <span class="cart-count">2 份</span>
+          <span class="cart-count" id="cart-count">0 份</span>
         </div>
 
-        <div class="cart-item">
-          <div class="qty">1</div>
-          <div>
-            <strong>炙燒雞腿能量餐盒</strong>
-            <p>午餐 · 竹科 A 廠 · 一般 / 不辣 · 620 kcal</p>
-          </div>
-          <span>NT$ 95</span>
-        </div>
-        <div class="cart-item">
-          <div class="qty">1</div>
-          <div>
-            <strong>松露野菇豆腐餐</strong>
-            <p>午餐 · 竹科 A 廠 · 素食 · 510 kcal</p>
-          </div>
-          <span>NT$ 88</span>
+        <div id="cart-items"></div>
+        <div class="empty-admin" id="empty-cart" hidden>
+          <h3>購物車是空的</h3>
+          <p>回到訂餐頁選擇餐點後，這裡會顯示可調整數量的商品清單。</p>
         </div>
 
         <label class="field note-field">
@@ -108,15 +98,15 @@
         </div>
 
         <div class="price-list">
-          <div><span>餐點小計</span><strong>NT$ 183</strong></div>
-          <div><span>公司補助</span><strong>- NT$ 60</strong></div>
-          <div><span>環保餐具折抵</span><strong>- NT$ 5</strong></div>
-          <div class="total"><span>應付金額</span><strong>NT$ 118</strong></div>
+          <div><span>餐點小計</span><strong id="cart-subtotal">NT$ 0</strong></div>
+          <div><span>公司補助</span><strong id="cart-subsidy">- NT$ 0</strong></div>
+          <div><span>環保餐具折抵</span><strong id="cart-discount">- NT$ 0</strong></div>
+          <div class="total"><span>應付金額</span><strong id="cart-total">NT$ 0</strong></div>
         </div>
 
         <div class="action-row">
           <a class="secondary-button" href="index.html#menu">繼續選餐</a>
-          <a class="button" href="checkout.html">前往結帳</a>
+          <a class="button" id="checkout-link" href="checkout.html">前往結帳</a>
         </div>
       </aside>
     </section>

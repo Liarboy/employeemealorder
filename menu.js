@@ -1,5 +1,26 @@
 (function () {
   const storageKey = "meal-order-admin-products";
+  const cartKey = "meal-order-cart";
+  const siteLabels = {
+    "site-a": "竹科 A 廠",
+    "site-b": "竹科 B 廠",
+    "site-south": "南科 C 廠",
+    "site-taichung": "台中總部"
+  };
+  const mealLabels = {
+    "meal-breakfast": "早餐",
+    "meal-lunch": "午餐",
+    "meal-dinner": "晚餐",
+    "meal-night": "宵夜"
+  };
+  const dietLabels = {
+    "diet-normal": "一般",
+    "diet-vegan": "素食",
+    "diet-egg": "含蛋",
+    "diet-five-pungent": "五辛素",
+    "diet-no-spicy": "不辣",
+    "diet-low": "低卡"
+  };
 
   function getProducts() {
     try {
@@ -7,6 +28,35 @@
     } catch (error) {
       return [];
     }
+  }
+
+  function getCart() {
+    try {
+      return JSON.parse(localStorage.getItem(cartKey)) || [];
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function addToCart(product) {
+    const items = getCart();
+    const existing = items.find((item) => item.id === product.id);
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      items.push({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        calories: product.calories,
+        siteLabel: siteLabels[product.site],
+        mealLabel: mealLabels[product.meal],
+        diets: (product.diets || ["diet-normal"]).map((diet) => dietLabels[diet] || diet),
+        quantity: 1
+      });
+    }
+
+    localStorage.setItem(cartKey, JSON.stringify(items));
   }
 
   function createCard(product) {
@@ -28,25 +78,29 @@
     const description = document.createElement("p");
     const footer = document.createElement("div");
     const price = document.createElement("strong");
-    const cartLink = document.createElement("a");
+    const cartButton = document.createElement("button");
 
     photo.className = "meal-photo";
     photo.style.backgroundImage = `url("${product.image}")`;
     body.className = "meal-body";
     meta.className = "meal-meta";
     footer.className = "meal-footer";
-    cartLink.className = "button";
-    cartLink.href = "cart.html";
+    cartButton.className = "button";
+    cartButton.type = "button";
 
     tag.textContent = product.tag;
     calories.textContent = `${product.calories} kcal`;
     title.textContent = product.name;
     description.textContent = product.description;
     price.textContent = `NT$ ${product.price}`;
-    cartLink.textContent = "加入購物車";
+    cartButton.textContent = "加入購物車";
+    cartButton.addEventListener("click", () => {
+      addToCart(product);
+      window.location.href = "cart.html";
+    });
 
     meta.append(tag, calories);
-    footer.append(price, cartLink);
+    footer.append(price, cartButton);
     body.append(meta, title, description, footer);
     card.append(photo, body);
     return card;

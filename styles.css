@@ -1230,6 +1230,40 @@ body:has(#site-taichung:checked):has(#lunch:checked):has(#low-cal:checked) .empt
   border-radius: calc(var(--radius) - 2px);
 }
 
+.quantity-control {
+  display: grid;
+  grid-template-columns: 34px 34px 34px;
+  gap: 6px;
+  align-items: center;
+}
+
+.quantity-control button,
+.remove-cart-item {
+  min-height: 34px;
+  color: var(--secondary-foreground);
+  font-weight: 900;
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  cursor: pointer;
+}
+
+.quantity-control button:disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.remove-cart-item {
+  padding: 7px 10px;
+  color: var(--destructive);
+}
+
+.remove-cart-item:hover,
+.quantity-control button:not(:disabled):hover {
+  background: #e4e4e7;
+}
+
 .cart-item div:nth-child(2) {
   flex: 1;
 }
@@ -1278,6 +1312,11 @@ body:has(#site-taichung:checked):has(#lunch:checked):has(#low-cal:checked) .empt
   grid-template-columns: 1fr 1fr;
   gap: 12px;
   margin-top: 24px;
+}
+
+.button.is-disabled {
+  pointer-events: none;
+  opacity: 0.45;
 }
 
 .mini-list {
