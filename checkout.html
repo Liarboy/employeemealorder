@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>結帳 | 網路訂餐系統</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="i18n.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">
+        <span class="logo-steam"></span>
+        <span class="logo-chopstick"></span>
+        <span class="logo-bowl">
+          <span class="logo-face"></span>
+        </span>
+      </span>
+      <span>
+        <strong>網路訂餐系統</strong>
+        <small>Employee Meal Order</small>
+      </span>
+    </a>
+    <nav class="main-nav" aria-label="主要導覽">
+      <a href="index.html">訂餐</a>
+      <a href="orders.html">我的訂單</a>
+      <a href="cart.html">購物車</a>
+      <a href="contact.html">聯絡我們</a>
+      <a href="admin.html">後台</a>
+    </nav>
+    <div class="top-actions">
+      <nav class="language-switch" aria-label="語系切換">
+        <a class="active" href="checkout.html" lang="zh-Hant">中</a>
+        <a href="checkout.html?lang=en" lang="en">EN</a>
+      </nav>
+      <a class="profile-pill" href="cart.html">Kevin T · 112913</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-title">
+      <h1>結帳與取餐確認</h1>
+      <p>確認付款方式、收據設定與通知管道，送出後即可取得取餐 QR Code。</p>
+    </section>
+
+    <section class="checkout-page">
+      <section class="checkout-card">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Checkout</p>
+            <h2>結帳資訊</h2>
+          </div>
+          <span class="status-dot">可結帳</span>
+        </div>
+
+        <form class="checkout-form">
+          <div class="field-grid">
+            <label class="field">
+              <span>付款方式</span>
+              <select>
+                <option>薪資扣款</option>
+                <option>員工錢包</option>
+                <option>信用卡</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>發票 / 收據</span>
+              <select>
+                <option>公司統編</option>
+                <option>個人載具</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>通知方式</span>
+              <select>
+                <option>Email + Teams 推播</option>
+                <option>僅 Email</option>
+                <option>僅 Teams 推播</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>取餐提醒</span>
+              <select>
+                <option>取餐前 15 分鐘</option>
+                <option>取餐前 30 分鐘</option>
+                <option>不提醒</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="pickup-summary">
+            <div>
+              <span>取餐時間</span>
+              <strong>2026/05/08 12:00 - 12:30</strong>
+            </div>
+            <div>
+              <span>取餐地點</span>
+              <strong>竹科 A 廠 · 2F 員工餐廳</strong>
+            </div>
+            <div>
+              <span>訂購人</span>
+              <strong>Kevin T · 112913</strong>
+            </div>
+          </div>
+
+          <label class="agree-line">
+            <input type="checkbox" checked>
+            <span>我已確認訂餐內容、過敏資訊與取餐時間。</span>
+          </label>
+
+          <button class="submit-button" type="button">送出訂單並產生 QR Code</button>
+        </form>
+      </section>
+
+      <aside class="summary-card">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Order</p>
+            <h2>付款明細</h2>
+          </div>
+        </div>
+
+        <div class="mini-list">
+          <div>
+            <strong>炙燒雞腿能量餐盒</strong>
+            <span>NT$ 95</span>
+          </div>
+          <div>
+            <strong>松露野菇豆腐餐</strong>
+            <span>NT$ 88</span>
+          </div>
+        </div>
+
+        <div class="price-list">
+          <div><span>餐點小計</span><strong>NT$ 183</strong></div>
+          <div><span>公司補助</span><strong>- NT$ 60</strong></div>
+          <div><span>環保餐具折抵</span><strong>- NT$ 5</strong></div>
+          <div class="total"><span>應付金額</span><strong>NT$ 118</strong></div>
+        </div>
+
+        <a class="secondary-button full" href="cart.html">返回購物車修改</a>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>

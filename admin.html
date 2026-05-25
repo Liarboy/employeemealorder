@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商品後台 | 網路訂餐系統</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="i18n.js" defer></script>
+  <script src="admin.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">
+        <span class="logo-steam"></span>
+        <span class="logo-chopstick"></span>
+        <span class="logo-bowl">
+          <span class="logo-face"></span>
+        </span>
+      </span>
+      <span>
+        <strong>網路訂餐系統</strong>
+        <small>Employee Meal Order</small>
+      </span>
+    </a>
+    <nav class="main-nav" aria-label="主要導覽">
+      <a href="index.html">訂餐</a>
+      <a href="orders.html">我的訂單</a>
+      <a href="cart.html">購物車</a>
+      <a href="contact.html">聯絡我們</a>
+      <a class="active" href="admin.html">後台</a>
+    </nav>
+    <div class="top-actions">
+      <nav class="language-switch" aria-label="語系切換">
+        <a class="active" href="admin.html" lang="zh-Hant">中</a>
+        <a href="admin.html?lang=en" lang="en">EN</a>
+      </nav>
+      <a class="profile-pill" href="cart.html">Kevin T · 112913</a>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section class="page-title">
+      <h1>商品後台</h1>
+      <p>建立可販售餐點，設定供應廠區、餐次、飲食標籤與上架狀態。</p>
+    </section>
+
+    <section class="admin-page">
+      <form class="admin-card" id="product-form">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Product</p>
+            <h2>上架商品</h2>
+          </div>
+          <span class="status-dot" id="form-mode">新增</span>
+        </div>
+
+        <input id="product-id" type="hidden">
+
+        <div class="field-grid">
+          <label class="field">
+            <span>商品名稱</span>
+            <input id="product-name" type="text" required placeholder="例如：香煎雞胸藜麥餐">
+          </label>
+          <label class="field">
+            <span>售價</span>
+            <input id="product-price" type="number" min="0" step="1" required placeholder="95">
+          </label>
+          <label class="field">
+            <span>熱量</span>
+            <input id="product-calories" type="number" min="0" step="1" required placeholder="520">
+          </label>
+          <label class="field">
+            <span>商品標籤</span>
+            <input id="product-tag" type="text" required placeholder="例如：新品">
+          </label>
+        </div>
+
+        <label class="field note-field">
+          <span>商品描述</span>
+          <textarea id="product-description" rows="3" required placeholder="請輸入餐點內容、配菜或過敏原資訊"></textarea>
+        </label>
+
+        <div class="field note-field">
+          <span>商品圖片</span>
+          <label class="upload-field" for="product-image-file">
+            <input id="product-image-file" type="file" accept="image/*">
+            <strong>選取本機圖片</strong>
+            <small id="upload-file-name">尚未選取圖片</small>
+          </label>
+          <input id="product-image-data" type="hidden">
+          <div class="upload-preview" id="image-preview" hidden></div>
+        </div>
+
+        <div class="admin-options">
+          <div class="choice-block">
+            <span class="choice-label">供應廠區</span>
+            <div class="chip-row">
+              <input id="admin-site-a" name="site" type="radio" value="site-a" checked>
+              <label for="admin-site-a">竹科 A 廠</label>
+              <input id="admin-site-b" name="site" type="radio" value="site-b">
+              <label for="admin-site-b">竹科 B 廠</label>
+              <input id="admin-site-south" name="site" type="radio" value="site-south">
+              <label for="admin-site-south">南科 C 廠</label>
+              <input id="admin-site-taichung" name="site" type="radio" value="site-taichung">
+              <label for="admin-site-taichung">台中總部</label>
+            </div>
+          </div>
+
+          <div class="choice-block">
+            <span class="choice-label">餐次</span>
+            <div class="segmented">
+              <input id="admin-breakfast" name="meal" type="radio" value="meal-breakfast">
+              <label for="admin-breakfast">早餐</label>
+              <input id="admin-lunch" name="meal" type="radio" value="meal-lunch" checked>
+              <label for="admin-lunch">午餐</label>
+              <input id="admin-dinner" name="meal" type="radio" value="meal-dinner">
+              <label for="admin-dinner">晚餐</label>
+              <input id="admin-night" name="meal" type="radio" value="meal-night">
+              <label for="admin-night">宵夜</label>
+            </div>
+          </div>
+
+          <div class="choice-block">
+            <span class="choice-label">飲食標籤</span>
+            <div class="admin-checks">
+              <label><input name="diet" type="checkbox" value="diet-normal" checked> 一般</label>
+              <label><input name="diet" type="checkbox" value="diet-vegan"> 素食</label>
+              <label><input name="diet" type="checkbox" value="diet-egg"> 含蛋</label>
+              <label><input name="diet" type="checkbox" value="diet-five-pungent"> 五辛素</label>
+              <label><input name="diet" type="checkbox" value="diet-no-spicy"> 不辣</label>
+              <label><input name="diet" type="checkbox" value="diet-low"> 低卡</label>
+            </div>
+          </div>
+
+          <div class="choice-block">
+            <span class="choice-label">商品狀態</span>
+            <div class="admin-checks">
+              <label><input id="product-active" type="checkbox" checked> 上架中</label>
+              <label><input id="product-featured" type="checkbox"> 人氣版位</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button class="secondary-button" id="reset-form" type="button">清空表單</button>
+          <button class="button" type="submit">儲存商品</button>
+        </div>
+      </form>
+
+      <section class="admin-card">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Catalog</p>
+            <h2>商品列表</h2>
+          </div>
+          <span class="cart-count" id="product-count">0 件</span>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>商品</th>
+                <th>供應</th>
+                <th>售價</th>
+                <th>狀態</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="product-list"></tbody>
+          </table>
+        </div>
+
+        <div class="empty-admin" id="empty-products">
+          <h3>尚未建立商品</h3>
+          <p>新增第一個商品後，狀態為上架中的餐點會顯示在訂餐首頁。</p>
+        </div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

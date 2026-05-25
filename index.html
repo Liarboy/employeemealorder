@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>網路訂餐系統</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="i18n.js" defer></script>
+  <script src="menu.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">
+        <span class="logo-steam"></span>
+        <span class="logo-chopstick"></span>
+        <span class="logo-bowl">
+          <span class="logo-face"></span>
+        </span>
+      </span>
+      <span>
+        <strong>網路訂餐系統</strong>
+        <small>Employee Meal Order</small>
+      </span>
+    </a>
+    <nav class="main-nav" aria-label="主要導覽">
+      <a class="active" href="index.html">訂餐</a>
+      <a href="orders.html">我的訂單</a>
+      <a href="cart.html">購物車</a>
+      <a href="contact.html">聯絡我們</a>
+      <a href="admin.html">後台</a>
+    </nav>
+    <div class="top-actions">
+      <nav class="language-switch" aria-label="語系切換">
+        <a class="active" href="index.html" lang="zh-Hant">中</a>
+        <a href="index.html?lang=en" lang="en">EN</a>
+      </nav>
+      <a class="profile-pill" href="cart.html">Kevin T · 112913</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="order">
+      <div class="hero-copy">
+        <p class="eyebrow">今天想吃什麼，由你安排</p>
+        <h1>網路訂餐系統</h1>
+        <p class="hero-text">選擇廠區、日期、餐次與飲食偏好，快速加入購物車並完成公司帳務結帳。</p>
+      </div>
+      <form class="order-panel">
+        <div class="panel-header">
+          <span>訂餐條件</span>
+        </div>
+
+        <div class="field-grid">
+          <label class="field">
+            <span>取餐日期</span>
+            <input type="date" value="2026-05-08" min="2026-05-08" max="2026-05-14">
+          </label>
+          <label class="field">
+            <span>取餐地點</span>
+            <select>
+              <option>2F 員工餐廳</option>
+              <option>1F 大廳智能餐櫃</option>
+              <option>B1 夜班取餐站</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="choice-block">
+          <span class="choice-label">訂餐廠區</span>
+          <div class="chip-row">
+            <input id="site-a" name="site" type="radio" checked>
+            <label for="site-a">竹科 A 廠</label>
+            <input id="site-b" name="site" type="radio">
+            <label for="site-b">竹科 B 廠</label>
+            <input id="site-south" name="site" type="radio">
+            <label for="site-south">南科 C 廠</label>
+            <input id="site-taichung" name="site" type="radio">
+            <label for="site-taichung">台中總部</label>
+          </div>
+        </div>
+
+        <div class="choice-block">
+          <span class="choice-label">餐次</span>
+          <div class="segmented">
+            <input id="breakfast" name="meal" type="radio">
+            <label for="breakfast">早餐</label>
+            <input id="lunch" name="meal" type="radio" checked>
+            <label for="lunch">午餐</label>
+            <input id="dinner" name="meal" type="radio">
+            <label for="dinner">晚餐</label>
+            <input id="night" name="meal" type="radio">
+            <label for="night">宵夜</label>
+          </div>
+        </div>
+
+        <div class="choice-block">
+          <span class="choice-label">飲食選項</span>
+          <div class="chip-row">
+            <input id="diet-all" name="diet" type="checkbox" checked>
+            <label for="diet-all">全部</label>
+            <input id="normal" name="diet" type="checkbox">
+            <label for="normal">一般</label>
+            <input id="vegan" name="diet" type="checkbox">
+            <label for="vegan">素食</label>
+            <input id="egg" name="diet" type="checkbox">
+            <label for="egg">含蛋</label>
+            <input id="five-pungent" name="diet" type="checkbox">
+            <label for="five-pungent">五辛素</label>
+            <input id="no-spicy" name="diet" type="checkbox">
+            <label for="no-spicy">不辣</label>
+            <input id="low-cal" name="diet" type="checkbox">
+            <label for="low-cal">低卡</label>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <section class="menu-section" id="menu">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Today's Picks</p>
+          <h2>今天可以吃這些</h2>
+        </div>
+        <div class="sort-control">
+          <span>排序</span>
+          <select>
+            <option>人氣優先</option>
+            <option>熱量由低至高</option>
+            <option>價格由低至高</option>
+          </select>
+        </div>
+      </div>
+      <p class="result-hint">依照你選的廠區、餐次與飲食偏好，整理出目前可訂的餐點。</p>
+
+      <div class="menu-grid">
+        <article class="meal-card featured meal-lunch site-a date-0508 diet-normal diet-no-spicy">
+          <div class="meal-photo bowl-one"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>人氣首選</span>
+              <small>620 kcal</small>
+            </div>
+            <h3>炙燒雞腿能量餐盒</h3>
+            <p>炙燒去骨雞腿、紫米飯、烤南瓜、溫沙拉與柚香醬。</p>
+            <div class="meal-footer">
+              <strong>NT$ 95</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-lunch site-a date-0508 diet-vegan diet-five-pungent diet-low diet-no-spicy">
+          <div class="meal-photo bowl-two"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>素食</span>
+              <small>510 kcal</small>
+            </div>
+            <h3>松露野菇豆腐餐</h3>
+            <p>板煎豆腐、松露野菇、藜麥毛豆、季節青蔬。</p>
+            <div class="meal-footer">
+              <strong>NT$ 88</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-lunch site-a date-0508 diet-egg diet-low diet-no-spicy">
+          <div class="meal-photo bowl-three"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>低卡</span>
+              <small>460 kcal</small>
+            </div>
+            <h3>檸香鮭魚沙拉碗</h3>
+            <p>鮭魚、綜合葉菜、烤櫛瓜、溏心蛋與油醋醬。</p>
+            <div class="meal-footer">
+              <strong>NT$ 118</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-lunch site-a date-0508 diet-normal diet-no-spicy">
+          <div class="meal-photo bowl-thirteen"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>A 廠午餐</span>
+              <small>650 kcal</small>
+            </div>
+            <h3>蒜香烤雞義式餐盒</h3>
+            <p>蒜香烤雞、番茄筆管麵、烤甜椒與芝麻葉。</p>
+            <div class="meal-footer">
+              <strong>NT$ 98</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-lunch site-a date-0508 diet-normal diet-egg">
+          <div class="meal-photo bowl-eighteen"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>A 廠午餐</span>
+              <small>670 kcal</small>
+            </div>
+            <h3>台式滷雞腿便當</h3>
+            <p>滷雞腿、滷蛋、青江菜、豆干與白飯。</p>
+            <div class="meal-footer">
+              <strong>NT$ 94</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-lunch site-a date-0508 diet-vegan diet-low diet-no-spicy">
+          <div class="meal-photo bowl-fourteen"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>素食</span>
+              <small>455 kcal</small>
+            </div>
+            <h3>香煎櫛瓜豆包飯</h3>
+            <p>豆包、櫛瓜、玉米筍、糙米飯與胡麻醬。</p>
+            <div class="meal-footer">
+              <strong>NT$ 86</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-lunch site-a date-0508 diet-normal diet-no-spicy">
+          <div class="meal-photo bowl-twentytwo"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>A 廠午餐</span>
+              <small>690 kcal</small>
+            </div>
+            <h3>黑胡椒牛柳餐盒</h3>
+            <p>牛柳、彩椒、洋蔥、蒜香飯與炒時蔬。</p>
+            <div class="meal-footer">
+              <strong>NT$ 112</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-lunch site-a date-0508 diet-low diet-no-spicy">
+          <div class="meal-photo bowl-twentythree"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>低卡</span>
+              <small>575 kcal</small>
+            </div>
+            <h3>香草烤魚蔬菜盤</h3>
+            <p>香草白身魚、烤馬鈴薯、甜豆、檸檬優格醬。</p>
+            <div class="meal-footer">
+              <strong>NT$ 116</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-lunch site-a date-0508 diet-normal diet-egg diet-no-spicy">
+          <div class="meal-photo bowl-six"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>A 廠午餐</span>
+              <small>680 kcal</small>
+            </div>
+            <h3>味噌豬排午餐盒</h3>
+            <p>里肌豬排、味噌醬、玉子燒、海帶芽與米飯。</p>
+            <div class="meal-footer">
+              <strong>NT$ 102</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-lunch site-a date-0508 diet-vegan diet-low diet-no-spicy">
+          <div class="meal-photo bowl-seven"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>素食</span>
+              <small>480 kcal</small>
+            </div>
+            <h3>彩蔬藜麥佛陀碗</h3>
+            <p>藜麥、烤甜椒、鷹嘴豆、酪梨與芝麻葉。</p>
+            <div class="meal-footer">
+              <strong>NT$ 92</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-night site-a date-0508 diet-normal diet-egg">
+          <div class="meal-photo bowl-four"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>宵夜可訂</span>
+              <small>700 kcal</small>
+            </div>
+            <h3>椒麻牛肉飯</h3>
+            <p>薄切牛肉、溫泉蛋、青花菜、香蔥辣油與白飯。</p>
+            <div class="meal-footer">
+              <strong>NT$ 105</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-breakfast site-a date-0508 diet-normal diet-egg diet-no-spicy">
+          <div class="meal-photo bowl-five"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>早餐</span>
+              <small>390 kcal</small>
+            </div>
+            <h3>厚蛋鮪魚晨光盒</h3>
+            <p>厚蛋三明治、鮪魚沙拉、優格、無糖豆漿。</p>
+            <div class="meal-footer">
+              <strong>NT$ 72</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-dinner site-b date-0509 diet-normal diet-egg diet-no-spicy">
+          <div class="meal-photo bowl-six"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>竹科 B 廠</span>
+              <small>680 kcal</small>
+            </div>
+            <h3>味噌豬排晚餐盒</h3>
+            <p>里肌豬排、味噌醬、玉子燒、海帶芽與米飯。</p>
+            <div class="meal-footer">
+              <strong>NT$ 102</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-lunch site-south date-0509 diet-vegan diet-low diet-no-spicy">
+          <div class="meal-photo bowl-seven"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>南科素食</span>
+              <small>480 kcal</small>
+            </div>
+            <h3>彩蔬藜麥佛陀碗</h3>
+            <p>藜麥、烤甜椒、鷹嘴豆、酪梨與芝麻葉。</p>
+            <div class="meal-footer">
+              <strong>NT$ 92</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-night site-taichung date-0510 diet-normal diet-egg">
+          <div class="meal-photo bowl-eight"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>台中宵夜</span>
+              <small>740 kcal</small>
+            </div>
+            <h3>韓式泡菜牛五花</h3>
+            <p>牛五花、泡菜、豆芽、半熟蛋與海苔飯。</p>
+            <div class="meal-footer">
+              <strong>NT$ 108</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-dinner site-a date-0508 diet-normal diet-egg diet-no-spicy">
+          <div class="meal-photo bowl-nine"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>A 廠晚餐</span>
+              <small>590 kcal</small>
+            </div>
+            <h3>蔥鹽舒肥雞胸飯</h3>
+            <p>舒肥雞胸、蔥鹽醬、地瓜、花椰菜與半熟蛋。</p>
+            <div class="meal-footer">
+              <strong>NT$ 96</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-breakfast site-a date-0508 diet-vegan diet-low diet-no-spicy">
+          <div class="meal-photo bowl-ten"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>素食早餐</span>
+              <small>360 kcal</small>
+            </div>
+            <h3>豆乳燕麥水果杯</h3>
+            <p>豆乳燕麥、莓果、香蕉、堅果碎與黑芝麻粉。</p>
+            <div class="meal-footer">
+              <strong>NT$ 68</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-night site-a date-0508 diet-vegan diet-low diet-no-spicy">
+          <div class="meal-photo bowl-eleven"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>輕宵夜</span>
+              <small>430 kcal</small>
+            </div>
+            <h3>味噌豆腐蔬菜湯</h3>
+            <p>嫩豆腐、菇類、高麗菜、玉米筍與玄米飯糰。</p>
+            <div class="meal-footer">
+              <strong>NT$ 82</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-breakfast site-b date-0509 diet-normal diet-no-spicy">
+          <div class="meal-photo bowl-twelve"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>B 廠早餐</span>
+              <small>420 kcal</small>
+            </div>
+            <h3>火腿起司貝果盒</h3>
+            <p>烤貝果、火腿起司、凱薩沙拉與冷泡茶。</p>
+            <div class="meal-footer">
+              <strong>NT$ 78</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-lunch site-b date-0509 diet-normal diet-no-spicy">
+          <div class="meal-photo bowl-thirteen"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>B 廠午餐</span>
+              <small>650 kcal</small>
+            </div>
+            <h3>蒜香烤雞義式餐盒</h3>
+            <p>蒜香烤雞、番茄筆管麵、烤甜椒與芝麻葉。</p>
+            <div class="meal-footer">
+              <strong>NT$ 98</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-lunch site-b date-0509 diet-vegan diet-low diet-no-spicy">
+          <div class="meal-photo bowl-fourteen"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>B 廠素食</span>
+              <small>455 kcal</small>
+            </div>
+            <h3>香煎櫛瓜豆包飯</h3>
+            <p>豆包、櫛瓜、玉米筍、糙米飯與胡麻醬。</p>
+            <div class="meal-footer">
+              <strong>NT$ 86</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-night site-b date-0509 diet-normal diet-egg diet-no-spicy">
+          <div class="meal-photo bowl-fifteen"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>B 廠宵夜</span>
+              <small>610 kcal</small>
+            </div>
+            <h3>鹽烤鯖魚飯糰盒</h3>
+            <p>鯖魚飯糰、玉子燒、毛豆、味噌湯與小菜。</p>
+            <div class="meal-footer">
+              <strong>NT$ 90</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-dinner site-b date-0509 diet-vegan diet-five-pungent diet-low diet-no-spicy">
+          <div class="meal-photo bowl-sixteen"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>晚餐素食</span>
+              <small>500 kcal</small>
+            </div>
+            <h3>泰式打拋菇菇飯</h3>
+            <p>杏鮑菇、九層塔、糙米飯、涼拌青木瓜。</p>
+            <div class="meal-footer">
+              <strong>NT$ 89</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-breakfast site-south date-0509 diet-normal diet-egg diet-no-spicy">
+          <div class="meal-photo bowl-seventeen"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>南科早餐</span>
+              <small>410 kcal</small>
+            </div>
+            <h3>燻雞蛋沙拉可頌</h3>
+            <p>小可頌、燻雞蛋沙拉、蔬菜棒與拿鐵。</p>
+            <div class="meal-footer">
+              <strong>NT$ 76</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-lunch site-south date-0509 diet-normal diet-egg diet-no-spicy">
+          <div class="meal-photo bowl-eighteen"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>南科午餐</span>
+              <small>670 kcal</small>
+            </div>
+            <h3>台式滷雞腿便當</h3>
+            <p>滷雞腿、滷蛋、青江菜、豆干與白飯。</p>
+            <div class="meal-footer">
+              <strong>NT$ 94</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-dinner site-south date-0510 diet-normal diet-no-spicy">
+          <div class="meal-photo bowl-nineteen"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>南科晚餐</span>
+              <small>630 kcal</small>
+            </div>
+            <h3>番茄牛肉燉飯</h3>
+            <p>番茄燉牛肉、菇菇、花椰菜、帕瑪森起司。</p>
+            <div class="meal-footer">
+              <strong>NT$ 106</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-night site-south date-0510 diet-vegan diet-low diet-no-spicy">
+          <div class="meal-photo bowl-twenty"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>南科宵夜</span>
+              <small>420 kcal</small>
+            </div>
+            <h3>南瓜蔬菜濃湯組</h3>
+            <p>南瓜濃湯、佛卡夏、烤菇與鮮蔬杯。</p>
+            <div class="meal-footer">
+              <strong>NT$ 79</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-breakfast site-taichung date-0510 diet-vegan diet-low diet-no-spicy">
+          <div class="meal-photo bowl-twentyone"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>台中早餐</span>
+              <small>350 kcal</small>
+            </div>
+            <h3>酪梨豆腐吐司</h3>
+            <p>全麥吐司、酪梨泥、嫩豆腐、番茄與生菜。</p>
+            <div class="meal-footer">
+              <strong>NT$ 74</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-lunch site-taichung date-0510 diet-normal diet-no-spicy">
+          <div class="meal-photo bowl-twentytwo"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>台中午餐</span>
+              <small>690 kcal</small>
+            </div>
+            <h3>黑胡椒牛柳餐盒</h3>
+            <p>牛柳、彩椒、洋蔥、蒜香飯與炒時蔬。</p>
+            <div class="meal-footer">
+              <strong>NT$ 112</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="meal-card meal-dinner site-taichung date-0510 diet-normal diet-no-spicy">
+          <div class="meal-photo bowl-twentythree"></div>
+          <div class="meal-body">
+            <div class="meal-meta">
+              <span>台中晚餐</span>
+              <small>575 kcal</small>
+            </div>
+            <h3>香草烤魚蔬菜盤</h3>
+            <p>香草白身魚、烤馬鈴薯、甜豆、檸檬優格醬。</p>
+            <div class="meal-footer">
+              <strong>NT$ 116</strong>
+              <a class="button" href="cart.html">加入購物車</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="empty-state" aria-live="polite">
+          <div class="empty-illustration" aria-hidden="true">
+            <span class="empty-cloche"></span>
+            <span class="empty-plate"></span>
+          </div>
+          <h3>這個條件暫時沒有餐點</h3>
+          <p>換個餐次、廠區或飲食偏好看看，廚房可能在其他時段有供應。</p>
+        </article>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

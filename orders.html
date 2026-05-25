@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的訂單 | 網路訂餐系統</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="i18n.js" defer></script>
+  <script src="orders.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">
+        <span class="logo-steam"></span>
+        <span class="logo-chopstick"></span>
+        <span class="logo-bowl">
+          <span class="logo-face"></span>
+        </span>
+      </span>
+      <span>
+        <strong>網路訂餐系統</strong>
+        <small>Employee Meal Order</small>
+      </span>
+    </a>
+    <nav class="main-nav" aria-label="主要導覽">
+      <a href="index.html">訂餐</a>
+      <a class="active" href="orders.html">我的訂單</a>
+      <a href="cart.html">購物車</a>
+      <a href="contact.html">聯絡我們</a>
+      <a href="admin.html">後台</a>
+    </nav>
+    <div class="top-actions">
+      <nav class="language-switch" aria-label="語系切換">
+        <a class="active" href="orders.html" lang="zh-Hant">中</a>
+        <a href="orders.html?lang=en" lang="en">EN</a>
+      </nav>
+      <a class="profile-pill" href="cart.html">Kevin T · 112913</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-title">
+      <h1>我的訂單</h1>
+      <p>查看近期訂餐紀錄、取餐資訊與付款狀態，快速掌握每一筆餐點安排。</p>
+    </section>
+
+    <section class="orders-page">
+      <div class="cart-card">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Orders</p>
+            <h2>近期訂單</h2>
+          </div>
+          <span class="cart-count">3 筆</span>
+        </div>
+
+        <article class="order-record active-order">
+          <div class="order-status">今日</div>
+          <div>
+            <strong>#MO-20260508-112913</strong>
+            <p>炙燒雞腿能量餐盒、松露野菇豆腐餐</p>
+          </div>
+          <div class="order-meta">
+            <span>12:00 - 12:30</span>
+            <strong>待取餐</strong>
+          </div>
+        </article>
+
+        <article class="order-record">
+          <div class="order-status">明日</div>
+          <div>
+            <strong>#MO-20260509-112913</strong>
+            <p>香煎鮭魚藜麥餐</p>
+          </div>
+          <div class="order-meta">
+            <span>18:00 - 18:30</span>
+            <strong>已付款</strong>
+          </div>
+        </article>
+
+        <article class="order-record reviewable-order">
+          <div class="order-status muted">完成</div>
+          <div class="order-content">
+            <div class="order-summary-line">
+              <div>
+                <strong>#MO-20260507-112913</strong>
+                <p>泰式打拋豬飯、溫沙拉</p>
+              </div>
+              <div class="order-meta">
+                <span>2026/05/07</span>
+                <strong>已取餐</strong>
+              </div>
+            </div>
+
+            <form class="rating-form">
+              <div class="rating-header">
+                <div>
+                  <span>評價此訂單</span>
+                  <p>分享餐點口味、份量或取餐體驗，協助餐廳調整供餐品質。</p>
+                </div>
+                <strong>尚未評價</strong>
+              </div>
+
+              <div class="rating-stars" aria-label="評分星等">
+                <input id="rating-5" name="order-rating-20260507" type="radio" value="5">
+                <label for="rating-5" title="5 星">★</label>
+                <input id="rating-4" name="order-rating-20260507" type="radio" value="4">
+                <label for="rating-4" title="4 星">★</label>
+                <input id="rating-3" name="order-rating-20260507" type="radio" value="3">
+                <label for="rating-3" title="3 星">★</label>
+                <input id="rating-2" name="order-rating-20260507" type="radio" value="2">
+                <label for="rating-2" title="2 星">★</label>
+                <input id="rating-1" name="order-rating-20260507" type="radio" value="1">
+                <label for="rating-1" title="1 星">★</label>
+              </div>
+
+              <label class="field rating-note">
+                <span>評價內容</span>
+                <textarea rows="3" placeholder="例如：餐點份量剛好、取餐速度很快，主菜可以再少油一點"></textarea>
+              </label>
+
+              <p class="rating-message" aria-live="polite"></p>
+              <button class="secondary-button rating-submit" type="button">送出評價</button>
+            </form>
+          </div>
+        </article>
+      </div>
+
+      <aside class="summary-card">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Pickup</p>
+            <h2>今日取餐</h2>
+          </div>
+        </div>
+
+        <div class="pickup-summary">
+          <div>
+            <span>取餐地點</span>
+            <strong>竹科 A 廠 · 2F 員工餐廳</strong>
+          </div>
+          <div>
+            <span>取餐時間</span>
+            <strong>2026/05/08 12:00 - 12:30</strong>
+          </div>
+          <div>
+            <span>付款狀態</span>
+            <strong>薪資扣款 · NT$ 118</strong>
+          </div>
+        </div>
+
+        <a class="secondary-button full" href="index.html">再訂一份餐點</a>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>

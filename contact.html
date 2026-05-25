@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>聯絡我們 | 網路訂餐系統</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="i18n.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">
+        <span class="logo-steam"></span>
+        <span class="logo-chopstick"></span>
+        <span class="logo-bowl">
+          <span class="logo-face"></span>
+        </span>
+      </span>
+      <span>
+        <strong>網路訂餐系統</strong>
+        <small>Employee Meal Order</small>
+      </span>
+    </a>
+    <nav class="main-nav" aria-label="主要導覽">
+      <a href="index.html">訂餐</a>
+      <a href="orders.html">我的訂單</a>
+      <a href="cart.html">購物車</a>
+      <a class="active" href="contact.html">聯絡我們</a>
+      <a href="admin.html">後台</a>
+    </nav>
+    <div class="top-actions">
+      <nav class="language-switch" aria-label="語系切換">
+        <a class="active" href="contact.html" lang="zh-Hant">中</a>
+        <a href="contact.html?lang=en" lang="en">EN</a>
+      </nav>
+      <a class="profile-pill" href="cart.html">Kevin T · 112913</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-title">
+      <h1>聯絡我們</h1>
+      <p>餐點異動、付款問題或取餐協助，都可以透過表單送出，我們會盡快回覆。</p>
+    </section>
+
+    <section class="contact-page">
+      <section class="checkout-card">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Support</p>
+            <h2>問題回報</h2>
+          </div>
+          <span class="status-dot">服務中</span>
+        </div>
+
+        <form class="checkout-form">
+          <div class="field-grid">
+            <label class="field">
+              <span>問題類型</span>
+              <select>
+                <option>餐點內容</option>
+                <option>訂單修改</option>
+                <option>付款 / 收據</option>
+                <option>取餐協助</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>訂單編號</span>
+              <input type="text" value="MO-20260508-112913">
+            </label>
+          </div>
+
+          <label class="field note-field">
+            <span>問題描述</span>
+            <textarea rows="6" placeholder="請描述需要協助的內容"></textarea>
+          </label>
+
+          <button class="submit-button" type="button">送出聯絡表單</button>
+        </form>
+      </section>
+
+      <aside class="summary-card">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Info</p>
+            <h2>服務資訊</h2>
+          </div>
+        </div>
+
+        <div class="contact-info-list">
+          <div>
+            <span>服務時間</span>
+            <strong>週一至週五 08:30 - 18:30</strong>
+          </div>
+          <div>
+            <span>客服信箱</span>
+            <strong>meal-support@example.com</strong>
+          </div>
+          <div>
+            <span>分機</span>
+            <strong>1688</strong>
+          </div>
+          <div>
+            <span>緊急取餐</span>
+            <strong>請洽 2F 員工餐廳櫃台</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>
