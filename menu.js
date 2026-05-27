@@ -90,6 +90,12 @@
     });
   }
 
+  function removeStaticMenuCards(grid) {
+    grid.querySelectorAll(".meal-card").forEach((card) => {
+      card.remove();
+    });
+  }
+
   function createCard(product) {
     const card = document.createElement("article");
     card.className = [
@@ -143,6 +149,8 @@
     if (!grid || !emptyState) {
       return;
     }
+
+    removeStaticMenuCards(grid);
 
     const products = await window.ProductDB.migrateLegacyProducts();
     products
