@@ -1570,12 +1570,8 @@ body:has(#site-taichung:checked):has(#lunch:checked):has(#low-cal:checked) .empt
 
 .crop-stage {
   position: relative;
-  overflow: hidden;
-  display: grid;
   aspect-ratio: 16 / 9;
-  min-height: 260px;
-  place-items: center;
-  padding: 12px;
+  min-height: 300px;
   background:
     linear-gradient(45deg, #e4e4e7 25%, transparent 25%),
     linear-gradient(-45deg, #e4e4e7 25%, transparent 25%),
@@ -1586,30 +1582,26 @@ body:has(#site-taichung:checked):has(#lunch:checked):has(#low-cal:checked) .empt
   background-size: 20px 20px;
   border: 1px solid var(--border);
   border-radius: calc(var(--radius) - 2px);
-  touch-action: none;
 }
 
 .crop-stage img {
   display: block;
   max-width: 100%;
-  max-height: 420px;
-  user-select: none;
-  -webkit-user-drag: none;
 }
 
-.crop-box {
-  position: absolute;
-  z-index: 1;
-  background:
-    linear-gradient(to right, transparent 33.333%, rgba(250, 250, 250, 0.8) 33.333% 33.7%, transparent 33.7% 66.333%, rgba(250, 250, 250, 0.8) 66.333% 66.7%, transparent 66.7%),
-    linear-gradient(to bottom, transparent 33.333%, rgba(250, 250, 250, 0.8) 33.333% 33.7%, transparent 33.7% 66.333%, rgba(250, 250, 250, 0.8) 66.333% 66.7%, transparent 66.7%),
-    rgba(255, 255, 255, 0.08);
-  border: 2px solid var(--primary);
-  border-radius: 6px;
-  box-shadow: 0 0 0 999px rgba(9, 9, 11, 0.52);
-  cursor: move;
-  pointer-events: none;
-  touch-action: none;
+.crop-stage .cropper-container {
+  min-height: 300px;
+  border-radius: calc(var(--radius) - 2px);
+}
+
+.crop-stage .cropper-view-box,
+.crop-stage .cropper-face {
+  border-radius: 4px;
+}
+
+.crop-stage .cropper-line,
+.crop-stage .cropper-point {
+  background-color: var(--primary);
 }
 
 .admin-table-wrap {

@@ -15,14 +15,7 @@
   const cropAspectRatio = 16 / 9;
   const cropOutputWidth = 900;
   const cropOutputHeight = Math.round(cropOutputWidth / cropAspectRatio);
-  const cropState = {
-    image: null,
-    crop: null,
-    dragging: false,
-    dragOffsetX: 0,
-    dragOffsetY: 0,
-    pointerId: null
-  };
+  let imageCropper = null;
 
   const getProducts = () => window.ProductDB.getProducts();
   const saveProducts = (products) => window.ProductDB.saveProducts(products);
@@ -73,8 +66,7 @@
     document.getElementById("crop-image").removeAttribute("src");
     document.getElementById("image-preview").hidden = true;
     document.getElementById("image-preview").style.backgroundImage = "";
-    cropState.image = null;
-    cropState.crop = null;
+    destroyImageCropper();
     document.getElementById("admin-site-a").checked = true;
     document.getElementById("admin-lunch").checked = true;
     document.querySelector('input[name="diet"][value="diet-normal"]').checked = true;
@@ -93,6 +85,7 @@
     document.getElementById("upload-file-name").textContent = product.image === fallbackImage ? "尚未選取圖片" : "已載入既有圖片";
     document.getElementById("image-cropper").hidden = true;
     document.getElementById("crop-image").removeAttribute("src");
+    destroyImageCropper();
     document.getElementById("image-preview").hidden = product.image === fallbackImage;
     document.getElementById("image-preview").style.backgroundImage = product.image === fallbackImage ? "" : `url("${product.image}")`;
     document.querySelector(`input[name="site"][value="${product.site}"]`).checked = true;
@@ -104,59 +97,30 @@
     document.getElementById("product-name").focus();
   }
 
-  function displayedImageRect() {
-    const stageRect = document.getElementById("crop-stage").getBoundingClientRect();
-    const imageRect = document.getElementById("crop-image").getBoundingClientRect();
-    return {
-      left: imageRect.left - stageRect.left,
-      top: imageRect.top - stageRect.top,
-      width: imageRect.width,
-      height: imageRect.height
-    };
-  }
-
-  function constrainCrop(crop) {
-    const imageRect = displayedImageRect();
-    const maxX = imageRect.left + imageRect.width - crop.width;
-    const maxY = imageRect.top + imageRect.height - crop.height;
-    return {
-      x: Math.min(Math.max(crop.x, imageRect.left), maxX),
-      y: Math.min(Math.max(crop.y, imageRect.top), maxY),
-      width: crop.width,
-      height: crop.height
-    };
-  }
-
-  function updateCropBox() {
-    if (!cropState.crop) {
+  function destroyImageCropper() {
+    if (!imageCropper) {
       return;
     }
 
-    const cropBox = document.getElementById("crop-box");
-    cropBox.style.left = `${cropState.crop.x}px`;
-    cropBox.style.top = `${cropState.crop.y}px`;
-    cropBox.style.width = `${cropState.crop.width}px`;
-    cropBox.style.height = `${cropState.crop.height}px`;
+    imageCropper.destroy();
+    imageCropper = null;
   }
 
   function updateCroppedImage() {
-    if (!cropState.image || !cropState.crop) {
+    if (!imageCropper) {
       return;
     }
 
-    const imageRect = displayedImageRect();
-    const scaleX = cropState.image.naturalWidth / imageRect.width;
-    const scaleY = cropState.image.naturalHeight / imageRect.height;
-    const sourceX = (cropState.crop.x - imageRect.left) * scaleX;
-    const sourceY = (cropState.crop.y - imageRect.top) * scaleY;
-    const sourceWidth = cropState.crop.width * scaleX;
-    const sourceHeight = cropState.crop.height * scaleY;
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
+    const canvas = imageCropper.getCroppedCanvas({
+      width: cropOutputWidth,
+      height: cropOutputHeight,
+      imageSmoothingEnabled: true,
+      imageSmoothingQuality: "high"
+    });
 
-    canvas.width = cropOutputWidth;
-    canvas.height = cropOutputHeight;
-    context.drawImage(cropState.image, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, canvas.width, canvas.height);
+    if (!canvas) {
+      return;
+    }
 
     const croppedImage = canvas.toDataURL("image/jpeg", 0.9);
     document.getElementById("product-image-data").value = croppedImage;
@@ -164,71 +128,33 @@
     document.getElementById("image-preview").style.backgroundImage = `url("${croppedImage}")`;
   }
 
-  function initializeCrop() {
-    const imageRect = displayedImageRect();
-    let width = imageRect.width * 0.82;
-    let height = width / cropAspectRatio;
-    if (height > imageRect.height * 0.82) {
-      height = imageRect.height * 0.82;
-      width = height * cropAspectRatio;
-    }
-
-    cropState.crop = {
-      x: imageRect.left + (imageRect.width - width) / 2,
-      y: imageRect.top + (imageRect.height - height) / 2,
-      width,
-      height
-    };
-    updateCropBox();
-    updateCroppedImage();
-  }
-
-  function handleCropDragStart(event) {
-    if (!cropState.crop) {
+  function initializeImageCropper() {
+    if (typeof Cropper === "undefined") {
+      document.getElementById("upload-file-name").textContent = "圖片裁切工具載入失敗";
       return;
     }
 
-    const stageRect = document.getElementById("crop-stage").getBoundingClientRect();
-    const cropBox = document.getElementById("crop-box").getBoundingClientRect();
-    const isInsideCropBox = event.clientX >= cropBox.left &&
-      event.clientX <= cropBox.right &&
-      event.clientY >= cropBox.top &&
-      event.clientY <= cropBox.bottom;
-
-    cropState.dragging = true;
-    cropState.pointerId = event.pointerId;
-    cropState.dragOffsetX = isInsideCropBox ? event.clientX - stageRect.left - cropState.crop.x : cropState.crop.width / 2;
-    cropState.dragOffsetY = isInsideCropBox ? event.clientY - stageRect.top - cropState.crop.y : cropState.crop.height / 2;
-    document.getElementById("crop-stage").setPointerCapture(event.pointerId);
-    handleCropDrag(event);
-    event.preventDefault();
-  }
-
-  function handleCropDrag(event) {
-    if (!cropState.dragging || !cropState.crop) {
-      return;
-    }
-
-    const stageRect = document.getElementById("crop-stage").getBoundingClientRect();
-    cropState.crop = constrainCrop({
-      x: event.clientX - stageRect.left - cropState.dragOffsetX,
-      y: event.clientY - stageRect.top - cropState.dragOffsetY,
-      width: cropState.crop.width,
-      height: cropState.crop.height
-    });
-    updateCropBox();
-    updateCroppedImage();
-  }
-
-  function handleCropDragEnd() {
-    if (cropState.pointerId !== null) {
-      const stage = document.getElementById("crop-stage");
-      if (stage.hasPointerCapture(cropState.pointerId)) {
-        stage.releasePointerCapture(cropState.pointerId);
+    destroyImageCropper();
+    imageCropper = new Cropper(document.getElementById("crop-image"), {
+      aspectRatio: cropAspectRatio,
+      viewMode: 1,
+      autoCropArea: 0.82,
+      background: false,
+      responsive: true,
+      restore: false,
+      dragMode: "move",
+      cropBoxMovable: true,
+      cropBoxResizable: true,
+      toggleDragModeOnDblclick: false,
+      ready: updateCroppedImage,
+      cropend: updateCroppedImage,
+      zoom: () => {
+        window.requestAnimationFrame(updateCroppedImage);
+      },
+      crop: () => {
+        window.requestAnimationFrame(updateCroppedImage);
       }
-    }
-    cropState.dragging = false;
-    cropState.pointerId = null;
+    });
   }
 
   function handleImageFile(event) {
@@ -243,8 +169,7 @@
       document.getElementById("upload-file-name").textContent = file.name;
       document.getElementById("image-cropper").hidden = false;
       cropImage.addEventListener("load", () => {
-        cropState.image = cropImage;
-        initializeCrop();
+        initializeImageCropper();
       }, { once: true });
       cropImage.src = reader.result;
     });
@@ -368,13 +293,9 @@
 
     document.getElementById("reset-form").addEventListener("click", resetForm);
     document.getElementById("product-image-file").addEventListener("change", handleImageFile);
-    document.getElementById("crop-stage").addEventListener("pointerdown", handleCropDragStart);
-    document.getElementById("crop-stage").addEventListener("pointermove", handleCropDrag);
-    document.getElementById("crop-stage").addEventListener("pointerup", handleCropDragEnd);
-    document.getElementById("crop-stage").addEventListener("pointercancel", handleCropDragEnd);
     window.addEventListener("resize", () => {
-      if (cropState.image && !document.getElementById("image-cropper").hidden) {
-        initializeCrop();
+      if (imageCropper) {
+        window.requestAnimationFrame(updateCroppedImage);
       }
     });
     document.getElementById("product-list").addEventListener("click", handleTableAction);
