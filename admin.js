@@ -75,19 +75,24 @@
   }
 
   function fillForm(product) {
+    const hasCustomImage = product.image && product.image !== fallbackImage;
     document.getElementById("product-id").value = product.id;
     document.getElementById("product-name").value = product.name;
     document.getElementById("product-price").value = product.price;
     document.getElementById("product-calories").value = product.calories;
     document.getElementById("product-tag").value = product.tag;
     document.getElementById("product-description").value = product.description;
-    document.getElementById("product-image-data").value = product.image === fallbackImage ? "" : product.image;
-    document.getElementById("upload-file-name").textContent = product.image === fallbackImage ? "尚未選取圖片" : "已載入既有圖片";
-    document.getElementById("image-cropper").hidden = true;
-    document.getElementById("crop-image").removeAttribute("src");
-    destroyImageCropper();
-    document.getElementById("image-preview").hidden = product.image === fallbackImage;
-    document.getElementById("image-preview").style.backgroundImage = product.image === fallbackImage ? "" : `url("${product.image}")`;
+    document.getElementById("product-image-data").value = hasCustomImage ? product.image : "";
+    document.getElementById("upload-file-name").textContent = hasCustomImage ? "已載入既有圖片，可重新裁切" : "尚未選取圖片";
+    if (hasCustomImage) {
+      loadImageIntoCropper(product.image, { resetOutput: false });
+    } else {
+      document.getElementById("image-cropper").hidden = true;
+      document.getElementById("crop-image").removeAttribute("src");
+      destroyImageCropper();
+      document.getElementById("image-preview").hidden = true;
+      document.getElementById("image-preview").style.backgroundImage = "";
+    }
     document.querySelector(`input[name="site"][value="${product.site}"]`).checked = true;
     document.querySelector(`input[name="meal"][value="${product.meal}"]`).checked = true;
     setDiets(product.diets || []);
@@ -143,6 +148,8 @@
       responsive: true,
       restore: false,
       dragMode: "move",
+      movable: true,
+      zoomable: true,
       cropBoxMovable: true,
       cropBoxResizable: true,
       toggleDragModeOnDblclick: false,
@@ -157,6 +164,24 @@
     });
   }
 
+  function loadImageIntoCropper(src, options = {}) {
+    const cropImage = document.getElementById("crop-image");
+    const shouldResetOutput = options.resetOutput !== false;
+
+    destroyImageCropper();
+    if (shouldResetOutput) {
+      document.getElementById("product-image-data").value = "";
+      document.getElementById("image-preview").hidden = true;
+      document.getElementById("image-preview").style.backgroundImage = "";
+    }
+
+    document.getElementById("image-cropper").hidden = false;
+    cropImage.addEventListener("load", () => {
+      initializeImageCropper();
+    }, { once: true });
+    cropImage.src = src;
+  }
+
   function handleImageFile(event) {
     const file = event.target.files[0];
     if (!file) {
@@ -165,13 +190,8 @@
 
     const reader = new FileReader();
     reader.addEventListener("load", () => {
-      const cropImage = document.getElementById("crop-image");
       document.getElementById("upload-file-name").textContent = file.name;
-      document.getElementById("image-cropper").hidden = false;
-      cropImage.addEventListener("load", () => {
-        initializeImageCropper();
-      }, { once: true });
-      cropImage.src = reader.result;
+      loadImageIntoCropper(reader.result);
     });
     reader.readAsDataURL(file);
   }

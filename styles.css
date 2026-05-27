@@ -1604,6 +1604,17 @@ body:has(#site-taichung:checked):has(#lunch:checked):has(#low-cal:checked) .empt
   background-color: var(--primary);
 }
 
+.crop-stage .cropper-point {
+  width: 12px;
+  height: 12px;
+  opacity: 1;
+}
+
+.crop-stage .cropper-point.point-se {
+  width: 16px;
+  height: 16px;
+}
+
 .admin-table-wrap {
   overflow-x: auto;
 }
