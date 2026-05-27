@@ -1,5 +1,4 @@
 (function () {
-  const storageKey = "meal-order-admin-products";
   const fallbackImage = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80";
   const siteLabels = {
     "site-a": "竹科 A 廠",
@@ -14,17 +13,8 @@
     "meal-night": "宵夜"
   };
 
-  function getProducts() {
-    try {
-      return JSON.parse(localStorage.getItem(storageKey)) || [];
-    } catch (error) {
-      return [];
-    }
-  }
-
-  function saveProducts(products) {
-    localStorage.setItem(storageKey, JSON.stringify(products));
-  }
+  const getProducts = () => window.ProductDB.getProducts();
+  const saveProducts = (products) => window.ProductDB.saveProducts(products);
 
   function fieldValue(id) {
     return document.getElementById(id).value.trim();
@@ -113,8 +103,8 @@
     reader.readAsDataURL(file);
   }
 
-  function renderProducts() {
-    const products = getProducts();
+  async function renderProducts() {
+    const products = await getProducts();
     const list = document.getElementById("product-list");
     const empty = document.getElementById("empty-products");
     const count = document.getElementById("product-count");
@@ -175,24 +165,24 @@
     });
   }
 
-  function upsertProduct(product) {
-    const products = getProducts();
+  async function upsertProduct(product) {
+    const products = await getProducts();
     const index = products.findIndex((item) => item.id === product.id);
     if (index >= 0) {
       products[index] = product;
     } else {
       products.unshift(product);
     }
-    saveProducts(products);
+    await saveProducts(products);
   }
 
-  function handleTableAction(event) {
+  async function handleTableAction(event) {
     const button = event.target.closest("button[data-action]");
     if (!button) {
       return;
     }
 
-    const products = getProducts();
+    const products = await getProducts();
     const product = products.find((item) => item.id === button.dataset.id);
     if (!product) {
       return;
@@ -205,23 +195,26 @@
 
     if (button.dataset.action === "toggle") {
       product.active = !product.active;
-      saveProducts(products);
+      product.updatedAt = new Date().toISOString();
+      await saveProducts(products);
       renderProducts();
       return;
     }
 
     if (button.dataset.action === "delete") {
-      saveProducts(products.filter((item) => item.id !== product.id));
+      await saveProducts(products.filter((item) => item.id !== product.id));
       renderProducts();
       resetForm();
     }
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("product-form").addEventListener("submit", (event) => {
+  document.addEventListener("DOMContentLoaded", async () => {
+    await window.ProductDB.migrateLegacyProducts();
+
+    document.getElementById("product-form").addEventListener("submit", async (event) => {
       event.preventDefault();
-      upsertProduct(productFromForm());
-      renderProducts();
+      await upsertProduct(productFromForm());
+      await renderProducts();
       resetForm();
     });
 

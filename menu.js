@@ -1,5 +1,4 @@
 (function () {
-  const storageKey = "meal-order-admin-products";
   const cartKey = "meal-order-cart";
   const siteLabels = {
     "site-a": "竹科 A 廠",
@@ -22,13 +21,7 @@
     "diet-low": "低卡"
   };
 
-  function getProducts() {
-    try {
-      return JSON.parse(localStorage.getItem(storageKey)) || [];
-    } catch (error) {
-      return [];
-    }
-  }
+  const getProducts = () => window.ProductDB.getProducts();
 
   function getCart() {
     try {
@@ -144,14 +137,15 @@
     return card;
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", async () => {
     const grid = document.querySelector(".menu-grid");
     const emptyState = document.querySelector(".empty-state");
     if (!grid || !emptyState) {
       return;
     }
 
-    getProducts()
+    const products = await window.ProductDB.migrateLegacyProducts();
+    products
       .filter((product) => product.active)
       .forEach((product) => {
         grid.insertBefore(createCard(product), emptyState);

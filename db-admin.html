@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DB 後台 | 網路訂餐系統</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="i18n.js" defer></script>
+  <script src="product-db.js" defer></script>
+  <script src="db-admin.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">
+        <span class="logo-steam"></span>
+        <span class="logo-chopstick"></span>
+        <span class="logo-bowl">
+          <span class="logo-face"></span>
+        </span>
+      </span>
+      <span>
+        <strong>網路訂餐系統</strong>
+        <small>Employee Meal Order</small>
+      </span>
+    </a>
+    <nav class="main-nav" aria-label="主要導覽">
+      <a href="index.html">訂餐</a>
+      <a href="orders.html">我的訂單</a>
+      <a href="cart.html">購物車</a>
+      <a href="contact.html">聯絡我們</a>
+      <a class="active" href="admin.html">後台</a>
+    </nav>
+    <div class="top-actions">
+      <nav class="language-switch" aria-label="語系切換">
+        <a class="active" href="db-admin.html" lang="zh-Hant">中</a>
+        <a href="db-admin.html?lang=en" lang="en">EN</a>
+      </nav>
+      <a class="profile-pill" href="cart.html">Kevin T · 112913</a>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section class="page-title">
+      <h1>DB 後台</h1>
+      <p>檢視與備份商品資料庫內容，匯入 JSON 後可立即同步到商品後台與訂餐首頁。</p>
+    </section>
+
+    <section class="admin-page db-admin-page">
+      <section class="admin-card">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Database</p>
+            <h2>商品資料庫</h2>
+          </div>
+          <span class="cart-count" id="db-product-count">0 件</span>
+        </div>
+
+        <div class="db-stat-grid">
+          <div>
+            <span>上架商品</span>
+            <strong id="db-active-count">0</strong>
+          </div>
+          <div>
+            <span>下架商品</span>
+            <strong id="db-inactive-count">0</strong>
+          </div>
+          <div>
+            <span>最後更新</span>
+            <strong id="db-updated-at">尚無資料</strong>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button class="button" id="export-products" type="button">匯出 JSON</button>
+          <label class="secondary-button file-button" for="import-products">匯入 JSON</label>
+          <input id="import-products" type="file" accept="application/json,.json">
+        </div>
+        <button class="secondary-button full danger-button" id="clear-products" type="button">清空商品 DB</button>
+        <p class="db-message" id="db-message" role="status"></p>
+      </section>
+
+      <section class="admin-card">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Records</p>
+            <h2>商品資料</h2>
+          </div>
+          <a class="secondary-button" href="admin.html">回商品後台</a>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>商品</th>
+                <th>供應</th>
+                <th>售價</th>
+                <th>狀態</th>
+                <th>更新時間</th>
+              </tr>
+            </thead>
+            <tbody id="db-product-list"></tbody>
+          </table>
+        </div>
+        <div class="empty-admin" id="empty-db-products">
+          <h3>DB 目前沒有商品</h3>
+          <p>請先到商品後台新增商品，或從這裡匯入 JSON 備份。</p>
+        </div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
