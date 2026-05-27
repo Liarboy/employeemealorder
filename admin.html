@@ -93,6 +93,13 @@
             <small id="upload-file-name">尚未選取圖片</small>
           </label>
           <input id="product-image-data" type="hidden">
+          <div class="image-cropper" id="image-cropper" hidden>
+            <div class="crop-stage" id="crop-stage">
+              <img id="crop-image" alt="商品圖片裁切">
+              <div class="crop-box" id="crop-box" aria-label="拖曳調整訂餐列表顯示範圍"></div>
+            </div>
+            <small>拖曳框線選擇訂餐列表會顯示的範圍。</small>
+          </div>
           <div class="upload-preview" id="image-preview" hidden></div>
         </div>
 

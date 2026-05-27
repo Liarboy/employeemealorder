@@ -1539,6 +1539,7 @@ body:has(#site-taichung:checked):has(#lunch:checked):has(#low-cal:checked) .empt
 }
 
 .upload-preview {
+  aspect-ratio: 16 / 9;
   min-height: 180px;
   margin-top: 12px;
   background-color: var(--secondary);
@@ -1550,6 +1551,63 @@ body:has(#site-taichung:checked):has(#lunch:checked):has(#low-cal:checked) .empt
 
 .upload-preview[hidden] {
   display: none;
+}
+
+.image-cropper {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.image-cropper[hidden] {
+  display: none;
+}
+
+.image-cropper small {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.crop-stage {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  min-height: 260px;
+  place-items: center;
+  padding: 12px;
+  background:
+    linear-gradient(45deg, #e4e4e7 25%, transparent 25%),
+    linear-gradient(-45deg, #e4e4e7 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #e4e4e7 75%),
+    linear-gradient(-45deg, transparent 75%, #e4e4e7 75%),
+    var(--secondary);
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+  background-size: 20px 20px;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  touch-action: none;
+}
+
+.crop-stage img {
+  display: block;
+  max-width: 100%;
+  max-height: 420px;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.crop-box {
+  position: absolute;
+  z-index: 1;
+  background:
+    linear-gradient(to right, transparent 33.333%, rgba(250, 250, 250, 0.8) 33.333% 33.7%, transparent 33.7% 66.333%, rgba(250, 250, 250, 0.8) 66.333% 66.7%, transparent 66.7%),
+    linear-gradient(to bottom, transparent 33.333%, rgba(250, 250, 250, 0.8) 33.333% 33.7%, transparent 33.7% 66.333%, rgba(250, 250, 250, 0.8) 66.333% 66.7%, transparent 66.7%),
+    rgba(255, 255, 255, 0.08);
+  border: 2px solid var(--primary);
+  border-radius: 6px;
+  box-shadow: 0 0 0 999px rgba(9, 9, 11, 0.52);
+  cursor: move;
+  touch-action: none;
 }
 
 .admin-table-wrap {
