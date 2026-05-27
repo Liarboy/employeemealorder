@@ -831,7 +831,7 @@ body:has(#site-taichung:checked):has(#lunch:checked):has(#low-cal:checked) .empt
 }
 
 .meal-photo {
-  min-height: 190px;
+  aspect-ratio: 16 / 9;
   background-size: cover;
   background-position: center;
 }
@@ -1572,6 +1572,7 @@ body:has(#site-taichung:checked):has(#lunch:checked):has(#low-cal:checked) .empt
   position: relative;
   overflow: hidden;
   display: grid;
+  aspect-ratio: 16 / 9;
   min-height: 260px;
   place-items: center;
   padding: 12px;
@@ -1607,6 +1608,7 @@ body:has(#site-taichung:checked):has(#lunch:checked):has(#low-cal:checked) .empt
   border-radius: 6px;
   box-shadow: 0 0 0 999px rgba(9, 9, 11, 0.52);
   cursor: move;
+  pointer-events: none;
   touch-action: none;
 }
 

@@ -20,7 +20,8 @@
     crop: null,
     dragging: false,
     dragOffsetX: 0,
-    dragOffsetY: 0
+    dragOffsetY: 0,
+    pointerId: null
   };
 
   const getProducts = () => window.ProductDB.getProducts();
@@ -188,9 +189,18 @@
     }
 
     const stageRect = document.getElementById("crop-stage").getBoundingClientRect();
+    const cropBox = document.getElementById("crop-box").getBoundingClientRect();
+    const isInsideCropBox = event.clientX >= cropBox.left &&
+      event.clientX <= cropBox.right &&
+      event.clientY >= cropBox.top &&
+      event.clientY <= cropBox.bottom;
+
     cropState.dragging = true;
-    cropState.dragOffsetX = event.clientX - stageRect.left - cropState.crop.x;
-    cropState.dragOffsetY = event.clientY - stageRect.top - cropState.crop.y;
+    cropState.pointerId = event.pointerId;
+    cropState.dragOffsetX = isInsideCropBox ? event.clientX - stageRect.left - cropState.crop.x : cropState.crop.width / 2;
+    cropState.dragOffsetY = isInsideCropBox ? event.clientY - stageRect.top - cropState.crop.y : cropState.crop.height / 2;
+    document.getElementById("crop-stage").setPointerCapture(event.pointerId);
+    handleCropDrag(event);
     event.preventDefault();
   }
 
@@ -211,7 +221,14 @@
   }
 
   function handleCropDragEnd() {
+    if (cropState.pointerId !== null) {
+      const stage = document.getElementById("crop-stage");
+      if (stage.hasPointerCapture(cropState.pointerId)) {
+        stage.releasePointerCapture(cropState.pointerId);
+      }
+    }
     cropState.dragging = false;
+    cropState.pointerId = null;
   }
 
   function handleImageFile(event) {
@@ -351,9 +368,10 @@
 
     document.getElementById("reset-form").addEventListener("click", resetForm);
     document.getElementById("product-image-file").addEventListener("change", handleImageFile);
-    document.getElementById("crop-box").addEventListener("pointerdown", handleCropDragStart);
-    window.addEventListener("pointermove", handleCropDrag);
-    window.addEventListener("pointerup", handleCropDragEnd);
+    document.getElementById("crop-stage").addEventListener("pointerdown", handleCropDragStart);
+    document.getElementById("crop-stage").addEventListener("pointermove", handleCropDrag);
+    document.getElementById("crop-stage").addEventListener("pointerup", handleCropDragEnd);
+    document.getElementById("crop-stage").addEventListener("pointercancel", handleCropDragEnd);
     window.addEventListener("resize", () => {
       if (cropState.image && !document.getElementById("image-cropper").hidden) {
         initializeCrop();
