@@ -16,6 +16,7 @@
   const cropOutputWidth = 900;
   const cropOutputHeight = Math.round(cropOutputWidth / cropAspectRatio);
   let imageCropper = null;
+  let cropPreviewTimer = null;
 
   const getProducts = () => window.ProductDB.getProducts();
   const saveProducts = (products) => window.ProductDB.saveProducts(products);
@@ -40,6 +41,7 @@
 
   function productFromForm() {
     const diets = selectedDiets();
+    updateCroppedImage();
     return {
       id: fieldValue("product-id") || `product-${Date.now()}`,
       name: fieldValue("product-name"),
@@ -111,6 +113,11 @@
     imageCropper = null;
   }
 
+  function scheduleCroppedImageUpdate() {
+    window.clearTimeout(cropPreviewTimer);
+    cropPreviewTimer = window.setTimeout(updateCroppedImage, 180);
+  }
+
   function updateCroppedImage() {
     if (!imageCropper) {
       return;
@@ -155,12 +162,7 @@
       toggleDragModeOnDblclick: false,
       ready: updateCroppedImage,
       cropend: updateCroppedImage,
-      zoom: () => {
-        window.requestAnimationFrame(updateCroppedImage);
-      },
-      crop: () => {
-        window.requestAnimationFrame(updateCroppedImage);
-      }
+      zoom: scheduleCroppedImageUpdate
     });
   }
 
@@ -169,6 +171,8 @@
     const shouldResetOutput = options.resetOutput !== false;
 
     destroyImageCropper();
+    cropImage.removeAttribute("src");
+    window.clearTimeout(cropPreviewTimer);
     if (shouldResetOutput) {
       document.getElementById("product-image-data").value = "";
       document.getElementById("image-preview").hidden = true;
@@ -179,7 +183,9 @@
     cropImage.addEventListener("load", () => {
       initializeImageCropper();
     }, { once: true });
-    cropImage.src = src;
+    window.requestAnimationFrame(() => {
+      cropImage.src = src;
+    });
   }
 
   function handleImageFile(event) {
