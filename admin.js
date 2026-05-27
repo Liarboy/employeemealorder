@@ -317,7 +317,10 @@
       resetForm();
     });
 
-    document.getElementById("reset-form").addEventListener("click", resetForm);
+    const resetButton = document.getElementById("reset-form");
+    if (resetButton) {
+      resetButton.addEventListener("click", resetForm);
+    }
     document.getElementById("product-image-file").addEventListener("change", handleImageFile);
     window.addEventListener("resize", () => {
       if (imageCropper) {
