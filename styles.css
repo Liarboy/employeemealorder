@@ -1023,6 +1023,29 @@ body:has(#site-taichung:checked):has(#lunch:checked):has(#low-cal:checked) .empt
   line-height: 1.8;
 }
 
+.admin-tabs {
+  display: inline-flex;
+  gap: 6px;
+  margin: 0 0 24px;
+  padding: 4px;
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.admin-tabs a {
+  min-height: 40px;
+  padding: 10px 16px;
+  color: var(--muted-foreground);
+  font-weight: 800;
+  border-radius: 999px;
+}
+
+.admin-tabs a.active {
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
 .cart-page,
 .checkout-page,
 .orders-page,
