@@ -76,7 +76,13 @@
   }
 
   function sortProducts(products) {
-    return products.sort((a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0));
+    return products.sort((a, b) => {
+      if (a.featured !== b.featured) {
+        return a.featured ? -1 : 1;
+      }
+
+      return new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0);
+    });
   }
 
   async function getProducts() {
