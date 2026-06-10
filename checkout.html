@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="styles.css">
   <script src="i18n.js" defer></script>
   <script src="nav-cart.js" defer></script>
+  <script src="checkout.js" defer></script>
 </head>
 <body>
   <header class="topbar">
@@ -39,7 +40,7 @@
   <main>
     <section class="page-title">
       <h1>結帳與取餐確認</h1>
-      <p>確認付款方式、收據設定與通知管道，送出後即可取得取餐 QR Code。</p>
+      <p>確認付款方式、收據設定與通知管道，送出後即可完成訂餐。</p>
     </section>
 
     <section class="checkout-page">
@@ -107,8 +108,22 @@
             <span>我已確認訂餐內容、過敏資訊與取餐時間。</span>
           </label>
 
-          <button class="submit-button" type="button">送出訂單並產生 QR Code</button>
+          <button class="submit-button" id="submit-order" type="button">送出訂單</button>
         </form>
+
+        <div class="order-success" id="order-success" hidden aria-live="polite">
+          <div class="success-burst" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <strong>✓</strong>
+          </div>
+          <div>
+            <h3>訂餐成功！</h3>
+            <p>我們已收到你的訂單，取餐時間前會依設定通知你。</p>
+          </div>
+        </div>
       </section>
 
       <aside class="summary-card">

@@ -227,6 +227,7 @@
         select.addEventListener("change", updateSort);
       }
     });
+    window.addEventListener("meal-order-language-change", updateSort);
 
     const topbar = document.querySelector(".topbar");
     const hero = document.querySelector(".hero");

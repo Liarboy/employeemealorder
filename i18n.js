@@ -170,7 +170,7 @@
     "繼續選餐": "Continue Ordering",
     "前往結帳": "Checkout",
     "結帳與取餐確認": "Checkout and Pickup Confirmation",
-    "確認付款方式、收據設定與通知管道，送出後即可取得取餐 QR Code。": "Confirm payment, receipt settings, and notifications. Submit to get your pickup QR code.",
+    "確認付款方式、收據設定與通知管道，送出後即可完成訂餐。": "Confirm payment, receipt settings, and notifications. Submit to complete your order.",
     "結帳資訊": "Checkout Details",
     "可結帳": "Ready",
     "付款方式": "Payment Method",
@@ -192,7 +192,12 @@
     "竹科 A 廠 · 2F 員工餐廳": "Hsinchu Site A · 2F Employee Cafeteria",
     "訂購人": "Ordered By",
     "我已確認訂餐內容、過敏資訊與取餐時間。": "I have confirmed the order details, allergy information, and pickup time.",
-    "送出訂單並產生 QR Code": "Submit Order and Generate QR Code",
+    "送出訂單": "Submit Order",
+    "訂單已送出": "Order Submitted",
+    "訂餐成功！": "Order successful!",
+    "我們已收到你的訂單，取餐時間前會依設定通知你。": "We have received your order and will notify you before pickup based on your settings.",
+    "已完成": "Completed",
+    "回到訂餐頁": "Back to Order",
     "付款明細": "Payment Details",
     "返回購物車修改": "Back to Cart",
     "查看近期訂餐紀錄、取餐資訊與付款狀態，快速掌握每一筆餐點安排。": "View recent orders, pickup details, and payment status at a glance.",
@@ -383,6 +388,9 @@
     if (updateAddress) {
       updateUrl(lang);
     }
+    window.dispatchEvent(new CustomEvent("meal-order-language-change", {
+      detail: { lang }
+    }));
   }
 
   document.addEventListener("DOMContentLoaded", () => {
