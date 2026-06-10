@@ -121,12 +121,21 @@
           <h2>今天可以吃這些</h2>
         </div>
         <div class="sort-control">
-          <span>排序</span>
-          <select id="menu-sort">
-            <option value="popular">人氣優先</option>
-            <option value="calories-asc">熱量由低至高</option>
-            <option value="price-asc">價格由低至高</option>
-          </select>
+          <label>
+            <span>條件</span>
+            <select id="menu-sort-field">
+              <option value="popular">人氣</option>
+              <option value="calories">熱量</option>
+              <option value="price">價格</option>
+            </select>
+          </label>
+          <label>
+            <span>方向</span>
+            <select id="menu-sort-direction">
+              <option value="desc">由高到低</option>
+              <option value="asc">由低到高</option>
+            </select>
+          </label>
         </div>
       </div>
       <p class="result-hint">依照你選的廠區、餐次與飲食偏好，整理出目前可訂的餐點。</p>

@@ -146,23 +146,28 @@
     return card;
   }
 
-  function sortProductsForMenu(products, sortValue) {
+  function sortProductsForMenu(products, sortField, sortDirection) {
+    const multiplier = sortDirection === "asc" ? 1 : -1;
+
     return [...products].sort((a, b) => {
-      if (sortValue === "calories-asc") {
-        return (Number(a.calories) || 0) - (Number(b.calories) || 0) || a.menuOrder - b.menuOrder;
+      if (sortField === "calories") {
+        const diff = (Number(a.calories) || 0) - (Number(b.calories) || 0);
+        return diff * multiplier || a.menuOrder - b.menuOrder;
       }
 
-      if (sortValue === "price-asc") {
-        return (Number(a.price) || 0) - (Number(b.price) || 0) || a.menuOrder - b.menuOrder;
+      if (sortField === "price") {
+        const diff = (Number(a.price) || 0) - (Number(b.price) || 0);
+        return diff * multiplier || a.menuOrder - b.menuOrder;
       }
 
-      return a.menuOrder - b.menuOrder;
+      const popularityDiff = a.menuOrder - b.menuOrder;
+      return sortDirection === "asc" ? popularityDiff * -1 : popularityDiff;
     });
   }
 
-  function renderMenuCards(grid, emptyState, products, sortValue) {
+  function renderMenuCards(grid, emptyState, products, sortField, sortDirection) {
     removeStaticMenuCards(grid);
-    sortProductsForMenu(products, sortValue).forEach((product, index) => {
+    sortProductsForMenu(products, sortField, sortDirection).forEach((product, index) => {
       grid.insertBefore(createCard(product, index), emptyState);
     });
   }
@@ -170,7 +175,8 @@
   document.addEventListener("DOMContentLoaded", async () => {
     const grid = document.querySelector(".menu-grid");
     const emptyState = document.querySelector(".empty-state");
-    const sortSelect = document.getElementById("menu-sort");
+    const sortFieldSelect = document.getElementById("menu-sort-field");
+    const sortDirectionSelect = document.getElementById("menu-sort-direction");
     if (!grid || !emptyState) {
       return;
     }
@@ -184,14 +190,22 @@
         return { ...product, menuOrder: index };
       });
 
-    renderMenuCards(grid, emptyState, activeProducts, sortSelect?.value || "popular");
-    if (sortSelect) {
-      const updateSort = () => {
-        renderMenuCards(grid, emptyState, activeProducts, sortSelect.value);
-      };
-      sortSelect.addEventListener("input", updateSort);
-      sortSelect.addEventListener("change", updateSort);
-    }
+    const updateSort = () => {
+      renderMenuCards(
+        grid,
+        emptyState,
+        activeProducts,
+        sortFieldSelect?.value || "popular",
+        sortDirectionSelect?.value || "desc"
+      );
+    };
+    updateSort();
+    [sortFieldSelect, sortDirectionSelect].forEach((select) => {
+      if (select) {
+        select.addEventListener("input", updateSort);
+        select.addEventListener("change", updateSort);
+      }
+    });
 
     const topbar = document.querySelector(".topbar");
     const hero = document.querySelector(".hero");
