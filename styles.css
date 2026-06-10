@@ -95,49 +95,7 @@ textarea {
   height: 48px;
   overflow: hidden;
   isolation: isolate;
-  color: #fafafa;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.16), transparent 34%),
-    #09090b;
-  border: 1px solid #09090b;
-  border-radius: var(--radius);
-  box-shadow: 0 12px 28px rgba(9, 9, 11, 0.18);
-}
-
-.brand-mark::before {
-  position: absolute;
-  z-index: 2;
-  content: "";
-  width: 22px;
-  height: 22px;
-  background:
-    linear-gradient(90deg, currentColor 0 5px, transparent 5px 17px, currentColor 17px),
-    linear-gradient(135deg, transparent 0 8px, currentColor 8px 13px, transparent 13px);
-  transform: translateY(-1px);
-}
-
-.brand-mark::after {
-  position: absolute;
-  content: "";
-  right: 7px;
-  bottom: 7px;
-  width: 15px;
-  height: 5px;
-  background: #a3e635;
-  border-radius: 999px;
-  box-shadow: -21px -27px 0 -1px #fb923c;
-  transform: rotate(-18deg);
-}
-
-.brand:hover .brand-mark {
-  transform: translateY(-1px);
-  box-shadow: 0 16px 32px rgba(9, 9, 11, 0.22);
-}
-
-.brand-mark,
-.brand-mark::before,
-.brand-mark::after {
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  background: url("images/logo1.svg") center / contain no-repeat;
 }
 
 .brand strong,
@@ -239,8 +197,8 @@ textarea {
 
 .main-nav a:hover .nav-badge,
 .main-nav a.active .nav-badge {
-  color: var(--primary);
-  background: var(--background);
+  color: var(--primary-foreground);
+  background: var(--destructive);
 }
 
 main {
@@ -257,7 +215,7 @@ main {
   display: grid;
   grid-template-columns: minmax(0, 0.86fr) minmax(420px, 1fr);
   gap: 32px;
-  align-items: start;
+  align-items: stretch;
   transition: min-height 180ms ease, gap 180ms ease;
 }
 
@@ -267,7 +225,6 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: clamp(260px, 30vw, 320px);
   padding: clamp(26px, 4vw, 44px);
   color: var(--primary-foreground);
   background:
@@ -619,12 +576,6 @@ body:not(.filters-condensed) .order-panel {
   display: grid;
   grid-template-columns: minmax(104px, 0.85fr) minmax(132px, 1.15fr);
   gap: 8px;
-}
-
-.result-hint {
-  margin: -8px 0 22px;
-  color: var(--muted);
-  font-weight: 700;
 }
 
 .menu-grid {
@@ -1258,6 +1209,13 @@ body[data-site="site-taichung"][data-meal="meal-lunch"]:has(#low-cal:checked) .e
 
 .note-field {
   margin-top: 20px;
+}
+
+.field-note {
+  min-height: 18px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .price-list {

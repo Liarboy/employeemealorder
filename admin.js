@@ -25,6 +25,10 @@
     return document.getElementById(id).value.trim();
   }
 
+  function setFieldValue(id, value) {
+    document.getElementById(id).value = value || "";
+  }
+
   function selectedValue(name) {
     return document.querySelector(`input[name="${name}"]:checked`).value;
   }
@@ -39,13 +43,78 @@
     });
   }
 
-  function productFromForm() {
+  function setTranslationStatus(message) {
+    const status = document.getElementById("translation-status");
+    if (status) {
+      status.textContent = message || "";
+    }
+  }
+
+  async function translateWithBrowserAI(text, sourceLanguage, targetLanguage) {
+    if (!text) {
+      return "";
+    }
+
+    const translatorFactory = window.Translator || window.ai?.translator;
+    if (!translatorFactory?.create) {
+      return "";
+    }
+
+    try {
+      const translator = await translatorFactory.create({
+        sourceLanguage,
+        targetLanguage
+      });
+      return (await translator.translate(text)).trim();
+    } catch (error) {
+      return "";
+    }
+  }
+
+  async function resolveLocalizedText(zhValue, enValue, fieldLabel) {
+    const zh = zhValue.trim();
+    const en = enValue.trim();
+
+    if (!zh && !en) {
+      throw new Error(`請至少輸入${fieldLabel}的其中一個語系。`);
+    }
+
+    if (zh && en) {
+      return { zh, en };
+    }
+
+    if (zh) {
+      const translated = await translateWithBrowserAI(zh, "zh-Hant", "en");
+      if (translated) {
+        setTranslationStatus(`${fieldLabel}英文已自動翻譯。`);
+        return { zh, en: translated };
+      }
+      setTranslationStatus("此瀏覽器沒有可用的 AI 翻譯能力，已暫以中文同步缺少語系。");
+      return { zh, en: zh };
+    }
+
+    const translated = await translateWithBrowserAI(en, "en", "zh-Hant");
+    if (translated) {
+      setTranslationStatus(`${fieldLabel}中文已自動翻譯。`);
+      return { zh: translated, en };
+    }
+    setTranslationStatus("此瀏覽器沒有可用的 AI 翻譯能力，已暫以英文同步缺少語系。");
+    return { zh: en, en };
+  }
+
+  async function productFromForm() {
     const diets = selectedDiets();
+    const name = await resolveLocalizedText(fieldValue("product-name-zh"), fieldValue("product-name-en"), "商品名稱");
+    const description = await resolveLocalizedText(fieldValue("product-description-zh"), fieldValue("product-description-en"), "商品描述");
     updateCroppedImage();
     return {
       id: fieldValue("product-id") || `product-${Date.now()}`,
-      name: fieldValue("product-name"),
-      description: fieldValue("product-description"),
+      name: name.zh,
+      nameZh: name.zh,
+      nameEn: name.en,
+      description: description.zh,
+      descriptionZh: description.zh,
+      descriptionEn: description.en,
       price: Number(fieldValue("product-price")),
       calories: Number(fieldValue("product-calories")),
       tag: fieldValue("product-tag"),
@@ -62,6 +131,7 @@
   function resetForm() {
     document.getElementById("product-form").reset();
     document.getElementById("product-id").value = "";
+    setTranslationStatus("");
     document.getElementById("product-image-data").value = "";
     document.getElementById("upload-file-name").textContent = "尚未選取圖片";
     document.getElementById("image-cropper").hidden = true;
@@ -79,11 +149,14 @@
   function fillForm(product) {
     const hasCustomImage = product.image && product.image !== fallbackImage;
     document.getElementById("product-id").value = product.id;
-    document.getElementById("product-name").value = product.name;
+    setFieldValue("product-name-zh", product.nameZh || product.name);
+    setFieldValue("product-name-en", product.nameEn || "");
     document.getElementById("product-price").value = product.price;
     document.getElementById("product-calories").value = product.calories;
     document.getElementById("product-tag").value = product.tag;
-    document.getElementById("product-description").value = product.description;
+    setFieldValue("product-description-zh", product.descriptionZh || product.description);
+    setFieldValue("product-description-en", product.descriptionEn || "");
+    setTranslationStatus("");
     document.getElementById("product-image-data").value = hasCustomImage ? product.image : "";
     document.getElementById("upload-file-name").textContent = hasCustomImage ? "已載入既有圖片，可重新裁切" : "尚未選取圖片";
     if (hasCustomImage) {
@@ -101,7 +174,7 @@
     document.getElementById("product-active").checked = product.active;
     document.getElementById("product-featured").checked = product.featured;
     document.getElementById("form-mode").textContent = "編輯";
-    document.getElementById("product-name").focus();
+    document.getElementById("product-name-zh").focus();
   }
 
   function destroyImageCropper() {
@@ -220,11 +293,13 @@
       const copy = document.createElement("div");
       const name = document.createElement("strong");
       const meta = document.createElement("span");
+      const nameZh = product.nameZh || product.name;
+      const nameEn = product.nameEn || "";
       productSummary.className = "admin-product-summary";
       thumbnail.className = "admin-product-thumb";
       thumbnail.src = product.image || fallbackImage;
-      thumbnail.alt = product.name;
-      name.textContent = product.name;
+      thumbnail.alt = nameZh;
+      name.textContent = nameEn ? `${nameZh} / ${nameEn}` : nameZh;
       meta.textContent = `${product.tag} · ${product.calories} kcal`;
       copy.append(name, meta);
       productSummary.append(thumbnail, copy);
@@ -312,9 +387,13 @@
 
     document.getElementById("product-form").addEventListener("submit", async (event) => {
       event.preventDefault();
-      await upsertProduct(productFromForm());
-      await renderProducts();
-      resetForm();
+      try {
+        await upsertProduct(await productFromForm());
+        await renderProducts();
+        resetForm();
+      } catch (error) {
+        setTranslationStatus(error.message || "商品資料不完整。");
+      }
     });
 
     const resetButton = document.getElementById("reset-form");

@@ -128,6 +128,7 @@
     document.getElementById("cart-subsidy").textContent = `- ${money(subsidy)}`;
     document.getElementById("cart-discount").textContent = `- ${money(discount)}`;
     document.getElementById("cart-total").textContent = money(total);
+    window.updateNavCartBadge?.();
   }
 
   function updateItem(id, action) {

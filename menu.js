@@ -39,7 +39,7 @@
     } else {
       items.push({
         id: product.id,
-        name: product.name,
+        name: localizedProductText(product, "name"),
         price: product.price,
         calories: product.calories,
         siteLabel: siteLabels[product.site],
@@ -96,6 +96,27 @@
     });
   }
 
+  function currentLanguage() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("lang") === "en") {
+      return "en";
+    }
+    return localStorage.getItem("meal-order-lang") === "en" ? "en" : "zh";
+  }
+
+  function localizedProductText(product, field) {
+    const lang = currentLanguage();
+    if (field === "name") {
+      return lang === "en"
+        ? product.nameEn || product.name || product.nameZh
+        : product.nameZh || product.name || product.nameEn;
+    }
+
+    return lang === "en"
+      ? product.descriptionEn || product.description || product.descriptionZh
+      : product.descriptionZh || product.description || product.descriptionEn;
+  }
+
   function createCard(product, index) {
     const card = document.createElement("article");
     card.className = [
@@ -130,8 +151,8 @@
 
     tag.textContent = product.tag;
     calories.textContent = `${product.calories} kcal`;
-    title.textContent = product.name;
-    description.textContent = product.description;
+    title.textContent = localizedProductText(product, "name");
+    description.textContent = localizedProductText(product, "description");
     price.textContent = `NT$ ${product.price}`;
     cartButton.textContent = "加入購物車";
     cartButton.addEventListener("click", () => {

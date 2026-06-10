@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="vendor/cropperjs/cropper.min.css">
   <link rel="stylesheet" href="styles.css">
   <script src="i18n.js" defer></script>
+  <script src="nav-cart.js" defer></script>
   <script src="product-db.js" defer></script>
   <script src="vendor/cropperjs/cropper.min.js" defer></script>
   <script src="admin.js" defer></script>
@@ -64,8 +65,12 @@
 
         <div class="field-grid">
           <label class="field">
-            <span>商品名稱</span>
-            <input id="product-name" type="text" required placeholder="例如：香煎雞胸藜麥餐">
+            <span>商品名稱（中文）</span>
+            <input id="product-name-zh" type="text" placeholder="例如：香煎雞胸藜麥餐">
+          </label>
+          <label class="field">
+            <span>商品名稱（英文）</span>
+            <input id="product-name-en" type="text" placeholder="Example: Pan-seared Chicken Quinoa Meal">
           </label>
           <label class="field">
             <span>售價</span>
@@ -82,8 +87,14 @@
         </div>
 
         <label class="field note-field">
-          <span>商品描述</span>
-          <textarea id="product-description" rows="3" required placeholder="請輸入餐點內容、配菜或過敏原資訊"></textarea>
+          <span>商品描述（中文）</span>
+          <textarea id="product-description-zh" rows="3" placeholder="請輸入餐點內容、配菜或過敏原資訊"></textarea>
+        </label>
+
+        <label class="field note-field">
+          <span>商品描述（英文）</span>
+          <textarea id="product-description-en" rows="3" placeholder="Enter meal contents, sides, or allergen information"></textarea>
+          <small id="translation-status" class="field-note"></small>
         </label>
 
         <div class="field note-field">
