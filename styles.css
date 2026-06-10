@@ -257,8 +257,7 @@ main {
   display: grid;
   grid-template-columns: minmax(0, 0.86fr) minmax(420px, 1fr);
   gap: 32px;
-  align-items: stretch;
-  min-height: 470px;
+  align-items: start;
   transition: min-height 180ms ease, gap 180ms ease;
 }
 
@@ -268,7 +267,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: 430px;
+  min-height: clamp(260px, 30vw, 320px);
   padding: clamp(26px, 4vw, 44px);
   color: var(--primary-foreground);
   background:
@@ -321,6 +320,7 @@ main {
 }
 
 .order-panel {
+  align-self: start;
   transition: opacity 180ms ease, transform 180ms ease, box-shadow 180ms ease;
 }
 
@@ -543,7 +543,7 @@ body:not(.filters-condensed) .order-panel {
 .choice-block {
   display: grid;
   gap: 10px;
-  margin-top: 22px;
+  margin-top: 18px;
 }
 
 .segmented,
@@ -1709,7 +1709,7 @@ body[data-site="site-taichung"][data-meal="meal-lunch"]:has(#low-cal:checked) .e
   }
 
   .hero-copy {
-    min-height: 360px;
+    min-height: 280px;
   }
 
   .menu-grid {
@@ -1760,7 +1760,7 @@ body[data-site="site-taichung"][data-meal="meal-lunch"]:has(#low-cal:checked) .e
   }
 
   .hero-copy {
-    min-height: 300px;
+    min-height: 240px;
   }
 
   .filters-condensed .order-panel {
