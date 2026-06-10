@@ -121,21 +121,18 @@
           <h2>今天可以吃這些</h2>
         </div>
         <div class="sort-control">
-          <label>
-            <span>條件</span>
-            <select id="menu-sort-field">
+          <span>排序</span>
+          <div class="sort-selects">
+            <select id="menu-sort-field" aria-label="排序條件">
               <option value="popular">人氣</option>
               <option value="calories">熱量</option>
               <option value="price">價格</option>
             </select>
-          </label>
-          <label>
-            <span>方向</span>
-            <select id="menu-sort-direction">
+            <select id="menu-sort-direction" aria-label="排序方向">
               <option value="desc">由高到低</option>
               <option value="asc">由低到高</option>
             </select>
-          </label>
+          </div>
         </div>
       </div>
       <p class="result-hint">依照你選的廠區、餐次與飲食偏好，整理出目前可訂的餐點。</p>

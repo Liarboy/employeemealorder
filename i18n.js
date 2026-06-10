@@ -70,6 +70,8 @@
     "低卡": "Low Calorie",
     "今天可以吃這些": "Available Today",
     "排序": "Sort",
+    "排序條件": "Sort field",
+    "排序方向": "Sort direction",
     "條件": "Field",
     "方向": "Direction",
     "人氣": "Popularity",
