@@ -217,6 +217,7 @@
 
     const allDiet = document.getElementById("diet-all");
     const siteSelect = document.getElementById("site-select");
+    const mealSelect = document.getElementById("meal-select");
     const dietOptions = Array.from(document.querySelectorAll('input[name="diet"]')).filter((input) => input !== allDiet);
 
     function syncSiteSelection() {
@@ -230,6 +231,19 @@
     if (siteSelect) {
       siteSelect.addEventListener("change", syncSiteSelection);
       syncSiteSelection();
+    }
+
+    function syncMealSelection() {
+      if (!mealSelect) {
+        return;
+      }
+
+      document.body.dataset.meal = mealSelect.value;
+    }
+
+    if (mealSelect) {
+      mealSelect.addEventListener("change", syncMealSelection);
+      syncMealSelection();
     }
 
     function syncDietSelection(changedInput) {

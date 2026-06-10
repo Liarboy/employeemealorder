@@ -51,10 +51,6 @@
 
         <div class="field-grid">
           <label class="field">
-            <span>取餐日期</span>
-            <input type="date" value="2026-05-08" min="2026-05-08" max="2026-05-14">
-          </label>
-          <label class="field">
             <span>訂餐廠區</span>
             <select id="site-select">
               <option value="site-a">竹科 A 廠</option>
@@ -63,20 +59,19 @@
               <option value="site-taichung">台中總部</option>
             </select>
           </label>
-        </div>
-
-        <div class="choice-block">
-          <span class="choice-label">餐次</span>
-          <div class="segmented">
-            <input id="breakfast" name="meal" type="radio">
-            <label for="breakfast">早餐</label>
-            <input id="lunch" name="meal" type="radio" checked>
-            <label for="lunch">午餐</label>
-            <input id="dinner" name="meal" type="radio">
-            <label for="dinner">晚餐</label>
-            <input id="night" name="meal" type="radio">
-            <label for="night">宵夜</label>
-          </div>
+          <label class="field">
+            <span>取餐日期</span>
+            <input type="date" value="2026-05-08" min="2026-05-08" max="2026-05-14">
+          </label>
+          <label class="field">
+            <span>餐次</span>
+            <select id="meal-select">
+              <option value="meal-breakfast">早餐</option>
+              <option value="meal-lunch" selected>午餐</option>
+              <option value="meal-dinner">晚餐</option>
+              <option value="meal-night">宵夜</option>
+            </select>
+          </label>
         </div>
 
         <div class="choice-block">

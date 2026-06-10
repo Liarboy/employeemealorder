@@ -482,7 +482,7 @@ body:not(.filters-condensed) .order-panel {
 
 .field-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -638,10 +638,10 @@ body[data-site="site-b"] .meal-card:not(.site-b),
 body[data-site="site-south"] .meal-card:not(.site-south),
 body[data-site="site-taichung"] .meal-card:not(.site-taichung),
 body[data-site="site-a"] .meal-card:not(.site-a),
-body:has(#breakfast:checked) .meal-card:not(.meal-breakfast),
-body:has(#lunch:checked) .meal-card:not(.meal-lunch),
-body:has(#dinner:checked) .meal-card:not(.meal-dinner),
-body:has(#night:checked) .meal-card:not(.meal-night),
+body[data-meal="meal-breakfast"] .meal-card:not(.meal-breakfast),
+body[data-meal="meal-lunch"] .meal-card:not(.meal-lunch),
+body[data-meal="meal-dinner"] .meal-card:not(.meal-dinner),
+body[data-meal="meal-night"] .meal-card:not(.meal-night),
 body:has(#normal:checked) .meal-card:not(.diet-normal),
 body:has(#vegan:checked) .meal-card:not(.diet-vegan),
 body:has(#egg:checked) .meal-card:not(.diet-egg),
@@ -663,12 +663,12 @@ body:has(#low-cal:checked) .meal-card:not(.diet-low) {
   border-radius: var(--radius);
 }
 
-body[data-site="site-south"]:has(#breakfast:checked):has(#vegan:checked) .empty-state,
-body[data-site="site-south"]:has(#breakfast:checked):has(#low-cal:checked) .empty-state,
-body[data-site="site-south"]:has(#dinner:checked):has(#vegan:checked) .empty-state,
-body[data-site="site-south"]:has(#dinner:checked):has(#low-cal:checked) .empty-state,
-body[data-site="site-taichung"]:has(#lunch:checked):has(#vegan:checked) .empty-state,
-body[data-site="site-taichung"]:has(#lunch:checked):has(#low-cal:checked) .empty-state {
+body[data-site="site-south"][data-meal="meal-breakfast"]:has(#vegan:checked) .empty-state,
+body[data-site="site-south"][data-meal="meal-breakfast"]:has(#low-cal:checked) .empty-state,
+body[data-site="site-south"][data-meal="meal-dinner"]:has(#vegan:checked) .empty-state,
+body[data-site="site-south"][data-meal="meal-dinner"]:has(#low-cal:checked) .empty-state,
+body[data-site="site-taichung"][data-meal="meal-lunch"]:has(#vegan:checked) .empty-state,
+body[data-site="site-taichung"][data-meal="meal-lunch"]:has(#low-cal:checked) .empty-state {
   display: grid;
 }
 
