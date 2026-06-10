@@ -96,7 +96,7 @@
     });
   }
 
-  function createCard(product) {
+  function createCard(product, index) {
     const card = document.createElement("article");
     card.className = [
       "meal-card",
@@ -105,6 +105,9 @@
       product.site,
       ...(product.diets || [])
     ].filter(Boolean).join(" ");
+    card.dataset.sortIndex = String(index);
+    card.dataset.price = String(product.price || 0);
+    card.dataset.calories = String(product.calories || 0);
 
     const photo = document.createElement("div");
     const body = document.createElement("div");
@@ -143,9 +146,31 @@
     return card;
   }
 
+  function sortProductsForMenu(products, sortValue) {
+    return [...products].sort((a, b) => {
+      if (sortValue === "calories-asc") {
+        return (Number(a.calories) || 0) - (Number(b.calories) || 0) || a.menuOrder - b.menuOrder;
+      }
+
+      if (sortValue === "price-asc") {
+        return (Number(a.price) || 0) - (Number(b.price) || 0) || a.menuOrder - b.menuOrder;
+      }
+
+      return a.menuOrder - b.menuOrder;
+    });
+  }
+
+  function renderMenuCards(grid, emptyState, products, sortValue) {
+    removeStaticMenuCards(grid);
+    sortProductsForMenu(products, sortValue).forEach((product, index) => {
+      grid.insertBefore(createCard(product, index), emptyState);
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", async () => {
     const grid = document.querySelector(".menu-grid");
     const emptyState = document.querySelector(".empty-state");
+    const sortSelect = document.getElementById("menu-sort");
     if (!grid || !emptyState) {
       return;
     }
@@ -153,13 +178,20 @@
     removeStaticMenuCards(grid);
 
     const products = await window.ProductDB.migrateLegacyProducts();
-    products
+    const activeProducts = products
       .filter((product) => product.active)
-      .forEach((product) => {
-        grid.insertBefore(createCard(product), emptyState);
+      .map((product, index) => {
+        return { ...product, menuOrder: index };
       });
 
-    attachStaticCartButtons();
+    renderMenuCards(grid, emptyState, activeProducts, sortSelect?.value || "popular");
+    if (sortSelect) {
+      const updateSort = () => {
+        renderMenuCards(grid, emptyState, activeProducts, sortSelect.value);
+      };
+      sortSelect.addEventListener("input", updateSort);
+      sortSelect.addEventListener("change", updateSort);
+    }
 
     const topbar = document.querySelector(".topbar");
     const hero = document.querySelector(".hero");
