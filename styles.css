@@ -486,10 +486,6 @@ body:not(.filters-condensed) .order-panel {
   gap: 16px;
 }
 
-.site-filter-state {
-  display: none;
-}
-
 .field {
   display: grid;
   gap: 8px;
@@ -638,10 +634,10 @@ body:not(.filters-condensed) .order-panel {
   padding: 2px 0 10px;
 }
 
-body:has(#site-b:checked) .meal-card:not(.site-b),
-body:has(#site-south:checked) .meal-card:not(.site-south),
-body:has(#site-taichung:checked) .meal-card:not(.site-taichung),
-body:has(#site-a:checked) .meal-card:not(.site-a),
+body[data-site="site-b"] .meal-card:not(.site-b),
+body[data-site="site-south"] .meal-card:not(.site-south),
+body[data-site="site-taichung"] .meal-card:not(.site-taichung),
+body[data-site="site-a"] .meal-card:not(.site-a),
 body:has(#breakfast:checked) .meal-card:not(.meal-breakfast),
 body:has(#lunch:checked) .meal-card:not(.meal-lunch),
 body:has(#dinner:checked) .meal-card:not(.meal-dinner),
@@ -667,12 +663,12 @@ body:has(#low-cal:checked) .meal-card:not(.diet-low) {
   border-radius: var(--radius);
 }
 
-body:has(#site-south:checked):has(#breakfast:checked):has(#vegan:checked) .empty-state,
-body:has(#site-south:checked):has(#breakfast:checked):has(#low-cal:checked) .empty-state,
-body:has(#site-south:checked):has(#dinner:checked):has(#vegan:checked) .empty-state,
-body:has(#site-south:checked):has(#dinner:checked):has(#low-cal:checked) .empty-state,
-body:has(#site-taichung:checked):has(#lunch:checked):has(#vegan:checked) .empty-state,
-body:has(#site-taichung:checked):has(#lunch:checked):has(#low-cal:checked) .empty-state {
+body[data-site="site-south"]:has(#breakfast:checked):has(#vegan:checked) .empty-state,
+body[data-site="site-south"]:has(#breakfast:checked):has(#low-cal:checked) .empty-state,
+body[data-site="site-south"]:has(#dinner:checked):has(#vegan:checked) .empty-state,
+body[data-site="site-south"]:has(#dinner:checked):has(#low-cal:checked) .empty-state,
+body[data-site="site-taichung"]:has(#lunch:checked):has(#vegan:checked) .empty-state,
+body[data-site="site-taichung"]:has(#lunch:checked):has(#low-cal:checked) .empty-state {
   display: grid;
 }
 

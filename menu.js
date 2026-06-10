@@ -224,10 +224,7 @@
         return;
       }
 
-      const siteInput = document.getElementById(siteSelect.value);
-      if (siteInput) {
-        siteInput.checked = true;
-      }
+      document.body.dataset.site = siteSelect.value;
     }
 
     if (siteSelect) {
