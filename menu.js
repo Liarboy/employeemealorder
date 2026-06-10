@@ -216,7 +216,24 @@
     }
 
     const allDiet = document.getElementById("diet-all");
+    const siteSelect = document.getElementById("site-select");
     const dietOptions = Array.from(document.querySelectorAll('input[name="diet"]')).filter((input) => input !== allDiet);
+
+    function syncSiteSelection() {
+      if (!siteSelect) {
+        return;
+      }
+
+      const siteInput = document.getElementById(siteSelect.value);
+      if (siteInput) {
+        siteInput.checked = true;
+      }
+    }
+
+    if (siteSelect) {
+      siteSelect.addEventListener("change", syncSiteSelection);
+      syncSiteSelection();
+    }
 
     function syncDietSelection(changedInput) {
       if (!allDiet) {

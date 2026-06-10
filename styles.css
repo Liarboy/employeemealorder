@@ -486,6 +486,10 @@ body:not(.filters-condensed) .order-panel {
   gap: 16px;
 }
 
+.site-filter-state {
+  display: none;
+}
+
 .field {
   display: grid;
   gap: 8px;

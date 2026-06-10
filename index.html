@@ -55,27 +55,21 @@
             <input type="date" value="2026-05-08" min="2026-05-08" max="2026-05-14">
           </label>
           <label class="field">
-            <span>取餐地點</span>
-            <select>
-              <option>2F 員工餐廳</option>
-              <option>1F 大廳智能餐櫃</option>
-              <option>B1 夜班取餐站</option>
+            <span>訂餐廠區</span>
+            <select id="site-select">
+              <option value="site-a">竹科 A 廠</option>
+              <option value="site-b">竹科 B 廠</option>
+              <option value="site-south">南科 C 廠</option>
+              <option value="site-taichung">台中總部</option>
             </select>
           </label>
         </div>
 
-        <div class="choice-block">
-          <span class="choice-label">訂餐廠區</span>
-          <div class="chip-row">
-            <input id="site-a" name="site" type="radio" checked>
-            <label for="site-a">竹科 A 廠</label>
-            <input id="site-b" name="site" type="radio">
-            <label for="site-b">竹科 B 廠</label>
-            <input id="site-south" name="site" type="radio">
-            <label for="site-south">南科 C 廠</label>
-            <input id="site-taichung" name="site" type="radio">
-            <label for="site-taichung">台中總部</label>
-          </div>
+        <div class="site-filter-state" aria-hidden="true">
+          <input id="site-a" name="site" type="radio" checked tabindex="-1">
+          <input id="site-b" name="site" type="radio" tabindex="-1">
+          <input id="site-south" name="site" type="radio" tabindex="-1">
+          <input id="site-taichung" name="site" type="radio" tabindex="-1">
         </div>
 
         <div class="choice-block">
